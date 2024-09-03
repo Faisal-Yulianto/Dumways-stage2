@@ -1,10 +1,12 @@
+import { Navbar } from "./components/base/sidebar-left";
 
 function App() {
   return (
-    <>
-      <h1>hello world</h1>
-    </>
-  )
+    <div style={{backgroundColor: '#1D1D1D'}}>
+      <Navbar />
+    </div>
+  );
 }
 
-export default App
+export default App;
+
