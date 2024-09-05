@@ -1,13 +1,13 @@
 import { Box } from '@chakra-ui/react'
-import logo  from '../../assets/logo.png';
-import home from '../../assets/icon/home.png'
-import heart from '../../assets/icon/heart.png'
-import profile from '../../assets/icon/profile-circle.png'
-import search from '../../assets/icon/user-search.png'
-import logout from '../../assets/icon/logout.png'
-import {NavbarItem} from './component/sidebar-item'
-import { ButtonGreen } from '../buttons/button-green';
- 
+import logo  from '../../../assets/logo.png';
+import home from '../../../assets/icon/homeactive.png'
+import heart from '../../../assets/icon/heart.png'
+import profile from '../../../assets/icon/profile-circle.png'
+import search from '../../../assets/icon/user-search.png'
+import logout from '../../../assets/icon/logout.png'
+import {NavbarItem} from '../component/sidebar-item'
+import { ButtonGreen } from '../component/button-green';
+
 export function Navbar() {
     return (
       <Box as='article' 
@@ -15,7 +15,7 @@ export function Navbar() {
           rounded='md' 
           backgroundColor={"#1D1D1D"} 
           width='417px' 
-          height='1117px'
+          height='1035px'
           border='1px'
           borderColor='gray'
           >
@@ -34,7 +34,7 @@ export function Navbar() {
           <NavbarItem icon={search} text="Search" link="#search" />
           <ButtonGreen>Create Post</ButtonGreen>
         </Box>
-        <Box pt='510'>
+        <Box pt='470px'>
           <NavbarItem icon={logout} text="Logout" link="#logout" />
         </Box>
       </Box>

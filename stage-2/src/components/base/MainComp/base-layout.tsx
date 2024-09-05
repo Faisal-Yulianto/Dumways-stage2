@@ -1,8 +1,8 @@
 import{Box,Flex} from'@chakra-ui/react'
-import avatar from "../../assets/avatar/avatar.png";
-import { BaseLayoutItem } from "../base/component/base-layout-item";
-import { PostItem } from '../base/component/add-post-item';
-import base from '../../assets/Rectangle.png'
+import avatar from "../../../assets/avatar/avatar.png";
+import { BaseLayoutItem } from "../component/base-layout-item";
+import { PostItem } from '../component/add-post-item';
+import base from '../../../assets/Rectangle.png'
 
 export function BaseLayout() {
     return (

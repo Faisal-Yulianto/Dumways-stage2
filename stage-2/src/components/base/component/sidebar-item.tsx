@@ -17,7 +17,7 @@ export function NavbarItem({ icon, text, link }: NavbarItemProps) {
             marginLeft: '40px',
             gap: '4'
         }}>
-          <img src={icon} alt={`${text} Icon`} style={{ marginRight: "20px" }} />
+          <img src={icon} alt={`${text} Icon`} style={{ marginRight: "20px"}} />
           <Text fontSize="18px" fontWeight='500' lineHeight='24px'>{text}</Text>
         </Flex>
       </LinkOverlay>

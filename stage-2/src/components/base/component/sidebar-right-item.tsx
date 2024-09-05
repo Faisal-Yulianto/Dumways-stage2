@@ -1,19 +1,27 @@
 import {  Card, CardBody,Text,Box,Flex } from "@chakra-ui/react";
-import cover from '../../../assets/cover.png'
-import  Avatar  from "../../../assets/icon/avatar.png";
 
-export function SidebarRightItem() {
+interface RightItemProps {
+  cover:React.ReactNode;
+  avatar:React.ReactNode;
+  title:string;
+  alias:string;
+  picked:string;
+  follow:number;
+  follower:number;
+  Edit:string;
+}
+export function SidebarRightItem({cover,avatar,title,alias,picked,follow,follower,Edit}:RightItemProps) {
   return (
     <>
-      <Card width='563px' height='361' p='20px' gap='16px' backgroundColor={'#1D1D1D'}>
+      <Card width='290px' height='300px' p='20px' gap='16px' backgroundColor={'#1D1D1D'}>
         <CardBody width='100%' p={4} borderRadius={10} backgroundColor={'#262626'}>
           <Text color={'#FFFFFF'} fontSize='15px'>My Profile</Text>
           <Box>
-            <img src={cover} />
+            {cover}
         </Box>
         <Box>
             <Flex justifyContent={'space-between'}>
-                <img src={Avatar} style={{width:'40px',position:'relative',left:'15px', top:'-20px'}}/>
+              <Box style={{width:'40px',position:'relative',left:'15px', top:'-20px'}}>{avatar}</Box>
                 <Box>
                     <button 
                         style={{color:'white',
@@ -21,20 +29,24 @@ export function SidebarRightItem() {
                         border:'1px solid ',
                         alignItems:'end',
                         borderRadius:'20px',
-                        padding:'5px',
+                        width:'60px',
                         height:'25px',
                         marginTop:'6px'}}>
-                        Edit Profile
+                        {Edit}
                     </button>
                 </Box>
             </Flex>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Box>
-            <Text></Text>
-            <Text></Text>
-            </Box>
+            <Box color={'white'} height='20px'>
+              <Text p='5px 0 '>{title}</Text>
+              <Text fontSize='12px' color={'gray'} mt='-10px'>{alias}</Text>
+              <Text fontSize='12px'p='10px 0'>{picked}</Text>
+              <Box>
+              <Flex fontSize='12px'>
+              <Text pr='5px'>{follow}</Text><Text color={'gray'} >Following</Text>
+              <Text  pl='20px'>{follower}</Text><Text pl='5px' color={'gray'} >Followers</Text>
+              </Flex>
+              </Box>
+            </Box>  
         </Box>
         </CardBody>
        
