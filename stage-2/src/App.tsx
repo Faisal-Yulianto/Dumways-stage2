@@ -4,7 +4,7 @@ import { ProfilePageParent } from './components/ProfilePage/ProfilePageParent'
 function App() {
   return (
     <>
-      <ProfilePageParent/>
+      <ParentBase/>
     </>
   );
 }

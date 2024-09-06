@@ -6,7 +6,7 @@ import { SidebarRight } from "./MainComp/sidebar-right"
 export function ParentBase() {
   return (
     <Flex style={{backgroundColor: '#1D1D1D'}}>
-      <Navbar/>
+      <Navbar home={'homeactive.png'} follow={'heart.png'} search={'user-search.png'} profile={'profile-circle.png'}/>
       <BaseLayout/>
       <SidebarRight/>
     </Flex>

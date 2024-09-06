@@ -1,6 +1,5 @@
 import { Box, Image,Flex,Text } from '@chakra-ui/react'
 import message from '../../../assets/icon/message-text.png'
-import follow from '../../../assets/icon/heart.png'
 
 interface BaseItemProps{
     text:React.ReactNode;  
@@ -34,7 +33,7 @@ export function BaseLayoutItem({ text,icon,user,email,time,like,replies }: BaseI
                         </Text>
                         <Flex width='652px' height='32px' fontSize='14px' color={'gray'}>
                             <Flex pl={3}>
-                                <img src={follow} style={{width:'24px',height:'24px'}} />
+                                <img src='heart.png' style={{width:'24px',height:'24px'}} />
                                 <Text pl={2}>{like}</Text>
                                 
                             </Flex>
