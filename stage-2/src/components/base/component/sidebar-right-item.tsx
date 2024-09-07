@@ -32,7 +32,7 @@ export function SidebarRightItem({
       <Card
         width={customWidth}
         height={customHeight}
-        p="5px"
+        p="20px"
         gap="16px"
         backgroundColor="#1D1D1D"
       >

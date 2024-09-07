@@ -14,10 +14,10 @@ interface SugestItemProps {
 export function SugestItem({ avatar, name, alias, button }: SugestItemProps) {
   return (
     <>
-      <Box padding="5px">
+      <Box padding="10px 0" width='300px'>
         <Flex>
-          <Box width="0px">{avatar}</Box>
-          <Box pl={2} pr={8}>
+          <Box width="30px">{avatar}</Box>
+          <Box pl={3} pr='65px'>
             <Text fontSize="10px">{name}</Text>
             <Text fontSize="10px">{alias}</Text>
           </Box>
@@ -49,7 +49,7 @@ export function Follower({ avatar, name, alias }: FollowerItemProps) {
       <Box padding="5px 0">
         <Flex>
           <Box width="30px">{avatar}</Box>
-          <Box pl={2} pr={5}>
+          <Box pl={3} pr='50px'>
             <Text fontSize="10px">{name}</Text>
             <Text fontSize="10px">{alias}</Text>
           </Box>
@@ -75,13 +75,13 @@ export function DevItem() {
   return (
     <>
       <Box
-        width="280px"
+        width="250px"
         height="max-content"
-        p="15px 30px"
+        p='10px'
         gap="16px"
         backgroundColor={"#262626"}
-        margin="5px"
         borderRadius="10"
+        style={{marginLeft:'20px'}}
       >
         <Flex>
           <Text fontSize="10px">Developer By Faisal Yulianto • </Text>

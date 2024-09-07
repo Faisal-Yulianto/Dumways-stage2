@@ -1,10 +1,11 @@
 import { Flex,Text,Box } from '@chakra-ui/react'
 import { SidebarRightItem } from "./component/sidebar-right-item";
-import { SugestItem,Follower } from "./component/SugestItem";
+import { SugestItem,Follower,DevItem } from "./component/SugestItem";
 import background from '../../assets/cover.png'
 import  Avatar  from "../../assets/icon/avatar.png";
 
 export function SidebarRight () {
+    console.log('Rendering SidebarRight');
     return (
         <>
         <Flex direction={'column'}>
@@ -16,45 +17,15 @@ export function SidebarRight () {
                     picked={"picked over by the worms, and weird fishes"}
                     follow={291}
                     follower={23} Edit={''}            
-            />
-            <Text paddingBottom='px'>Suggeste for you</Text>
+            />  
+            <SugestItem avatar={undefined} name={''} alias={''} button={''}/>
+            <Text paddingBottom='px'>Suggeste fdfgfdgdgfd you</Text>
             <Follower
                 avatar={<div><img src={Avatar}/></div>}
                 name={"Mohammed jawahir"}
                 alias={"@jawahir"}
             />
-            <Box>
-            <SugestItem
-                avatar={<div><img src={Avatar}/></div>}
-                name={"Mohammed jawahir"}
-                alias={"@jawahir"}
-                button={"follow"}
-            />
-            <SugestItem
-                avatar={<div><img src={Avatar}/></div>}
-                name={"Mohammed jawahir"}
-                alias={"@jawahir"}
-                button={"follow"}
-            />
-            <SugestItem
-                avatar={<div><img src={Avatar}/></div>}
-                name={"Mohammed jawahir"}
-                alias={"@jawahir"}
-                button={"follow"}
-            />
-            <SugestItem
-                avatar={<div><img src={Avatar}/></div>}
-                name={"Mohammed jawahir"}
-                alias={"@jawahir"}
-                button={"follow"}
-            />
-            <SugestItem
-                avatar={<div><img src={Avatar}/></div>}
-                name={"Mohammed jawahir"}
-                alias={"@jawahir"}
-                button={"follow"}
-            />
-            </Box>
+            <DevItem/>
         </Flex>
         </>
     )
