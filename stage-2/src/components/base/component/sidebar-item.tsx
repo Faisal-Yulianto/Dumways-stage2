@@ -1,26 +1,30 @@
-import { Flex, Heading, LinkOverlay, Text } from '@chakra-ui/react';
+import { Flex, Text, Box, Link } from '@chakra-ui/react';
 
 interface NavbarItemProps {
   icon: string;
   text: string;
-  link: string;
 }
 
-export function NavbarItem({ icon, text, link }: NavbarItemProps) {
+export function NavbarItem({ icon, text }: NavbarItemProps) {
   return (
-    <Heading>
-      <LinkOverlay href={link}>
-        <Flex alignItems="center" style={{
-            width: '337px',
-            height: '64px',
-            padding: '4',
-            marginLeft: '40px',
-            gap: '4'
-        }}>
-          <img src={icon} alt={`${text} Icon`} style={{ marginRight: "20px"}} />
-          <Text fontSize="18px" fontWeight='500' lineHeight='24px'>{text}</Text>
-        </Flex>
-      </LinkOverlay>
-    </Heading>
+    <Link href="#" _hover={{ textDecoration: 'none' }}>
+      <Flex
+        alignItems="center"
+        w="337px"
+        h="64px"
+        p={4}
+        ml={10}
+        gap={4}
+        borderRadius="md"
+      >
+        <Box>
+          <img src={icon} alt={`${text} Icon`} style={{ width: '32px', height: '32px' }} />
+        </Box>
+        <Text fontSize="18px" fontWeight="500" lineHeight="24px">
+          {text}
+        </Text>
+      </Flex>
+    </Link>
   );
 }
+

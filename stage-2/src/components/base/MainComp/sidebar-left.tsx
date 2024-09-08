@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Box } from '@chakra-ui/react'
 import logo  from '../../../assets/logo.png';
 import {NavbarItem} from '../component/sidebar-item'
@@ -11,32 +12,35 @@ interface NavProps {
 }
 export function Navbar({home,follow,search,profile}:NavProps) {
     return (
-      <Box as='article' 
-          maxW='sm' p='5' 
+      <Box  
+          p={10}
           rounded='md' 
-          backgroundColor={"#1D1D1D"} 
-          width='417px' 
-          height='1035px'
-          border='1px'
+          backgroundColor={"#1D1D1D"}  
+          height='1400px'
           borderColor='gray'
           >
-        <Box mb={8} style={{
-          margin: '40px 20px',
-        }}>
+        <Box p={10}>
           <img src={logo} alt="Logo" />
         </Box >
-        <Box style={{
-          width: '337px',
-          height: '340px',
-        }}>
-          <NavbarItem icon={home} text='Home' link='qw' />
-          <NavbarItem icon={search} text='Search' link='wq' />
-          <NavbarItem icon={follow} text='Follow' link='wq'/>
-          <NavbarItem icon={profile} text='Profile' link='wq'/>
+        <Box >
+          <Link to='/'>
+            <NavbarItem icon={home} text='Home'/>
+          </Link>
+          <Link to= '/search'>
+            <NavbarItem icon={search} text='Search'/>
+          </Link>
+          <Link to= '/follow'>
+            <NavbarItem icon={follow} text='Follow'/>
+          </Link>
+          <Link to= '/profile'>
+            <NavbarItem icon={profile} text='Profile'/>
+          </Link>
           <ButtonGreen>Create Post</ButtonGreen>
         </Box>
-        <Box pt='470px'>
-          <NavbarItem icon='logout.png' text="Logout" link="#logout" />
+        <Box mt={'700px'}>
+        <Link to= '/login'>
+          <NavbarItem icon='logout.png' text="Logout"/>
+        </Link>
         </Box>
       </Box>
 

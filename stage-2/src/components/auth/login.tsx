@@ -1,11 +1,6 @@
 import { Box, Button, Text,Input } from "@chakra-ui/react";
-import { useLoginForm } from "../../hooks/use-login-form";
-import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
-  const { handleChange, handleSubmit } = useLoginForm();
-  const navigate = useNavigate();
-
   return (
   <center style={{
     backgroundColor: "black",minHeight: "100vh"
@@ -30,13 +25,11 @@ export function LoginForm() {
       >
         <Input
           name="email"
-          onChange={handleChange}
           type="email"
           placeholder="Email"
         />
         <Input
           name="password"
-          onChange={handleChange}
           type="password"
           placeholder="Password"
         />
@@ -44,7 +37,6 @@ export function LoginForm() {
           Forgot password?
         </Text>
         <Button
-          onClick={handleSubmit}
           backgroundColor="brand.green"
           _hover={{ backgroundColor: "brand.green-disabled" }}
           padding="20px"
@@ -55,7 +47,7 @@ export function LoginForm() {
         </Button>
         <Text>
         Don't have an account yet?
-        <Text as="span" color="brand.green" onClick={() => navigate("/register")}>
+        <Text as="span" color="brand.green" >
           Create account
         </Text>
       </Text>
