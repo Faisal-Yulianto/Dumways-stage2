@@ -6,7 +6,7 @@ import { SidebarRight } from "../base/MainComp/sidebar-right";
 export function SearchParent() {
   return (
     <>
-    <Box>
+    <Box >
       <Flex>
         <Box>
         <Navbar

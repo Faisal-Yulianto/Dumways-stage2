@@ -1,4 +1,5 @@
 import { Card, Text, Box, Flex, Button } from "@chakra-ui/react";
+import { EditProfileModal } from "../../features/edit-profile";
 
 interface RightItemProps {
   cover: React.ReactNode;
@@ -8,7 +9,6 @@ interface RightItemProps {
   picked: string;
   follow: number;
   follower: number;
-  Edit: string;
   customWidth?: string;
   customHeight?: string;
   customBackground?: string;
@@ -22,7 +22,6 @@ export function SidebarRightItem({
   picked,
   follow,
   follower,
-  Edit,
   customWidth = "500px",
   customHeight = '361px',
   customBackground = "#262626",
@@ -49,16 +48,7 @@ export function SidebarRightItem({
           >
             {avatar}
           </Box>
-          <Button
-            color="white"
-            borderRadius="full"
-            variant="outline"
-            width="80px"
-            fontSize='12px'
-            margin='10px'
-          >
-            {Edit}
-          </Button>
+          <EditProfileModal/>
         </Flex>
         <Box color="white">
           <Text pb='2' mt='-20px'>{title}</Text>

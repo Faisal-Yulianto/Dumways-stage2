@@ -13,7 +13,6 @@ export function SidebarRight() {
         picked="picked over by the worms, and weird fishes" 
         follow={291} 
         follower={23} 
-        Edit="Edit profile"
       />
       
       <Box
