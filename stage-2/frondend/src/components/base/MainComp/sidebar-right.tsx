@@ -6,15 +6,10 @@ export function SidebarRight() {
   return (
     <Flex direction='column' backgroundColor='#1D1D1D' p='5'>
       <SidebarRightItem 
-        title="Stella Audinha" 
-        cover={<Image src='cover.png' alt='Cover' width='100%' height='auto' />} 
-        avatar={<Image src='avatar.png' alt='Avatar' border='5px solid' borderRadius='full' width='65px' height='65px' />} 
-        alias="@audinha" 
-        picked="picked over by the worms, and weird fishes" 
-        follow={291} 
-        follower={23} 
+        cover={<Image src='cover.png' alt='Cover' width='100%' height='auto' />}
+        size={'60px'}
+        top={'-50px'}
       />
-      
       <Box
         width='500px'
         p='8'

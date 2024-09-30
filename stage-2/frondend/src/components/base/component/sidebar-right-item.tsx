@@ -1,31 +1,43 @@
-import { Card, Text, Box, Flex, Button } from "@chakra-ui/react";
+import { Card, Text, Box, Flex } from "@chakra-ui/react";
 import { EditProfileModal } from "../../features/edit-profile";
+import { SidebarRightItemProps } from "../../type/sidebarProps"; // Pastikan SidebarRightItemProps ini diimpor atau didefinisikan
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "../../../redux/store/userSlice"; // Import thunk
+import { RootState, AppDispatch } from "../../../redux/store/store"; // Import RootState dan AppDispatch
 
-interface RightItemProps {
-  cover: React.ReactNode;
-  avatar: React.ReactNode;
-  title: string;
-  alias: string;
-  picked: string;
-  follow: number;
-  follower: number;
-  customWidth?: string;
-  customHeight?: string;
-  customBackground?: string;
-}
 
 export function SidebarRightItem({
   cover,
-  avatar,
-  title,
-  alias,
-  picked,
-  follow,
-  follower,
+  size = "100px",
+  left = "40px",
+  top = "-70px",
   customWidth = "500px",
-  customHeight = '361px',
+  customHeight = "361px",
   customBackground = "#262626",
-}: RightItemProps) {
+}: SidebarRightItemProps) {
+  const dispatch = useDispatch<AppDispatch>(); // Menggunakan AppDispatch
+  const { user, loading, error } = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(fetchUserData(token)); // Panggil thunk untuk mengambil data pengguna
+    }
+  }, [dispatch]);
+
+  if (loading) {
+    return <Text color="white">Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text color="red.500">{error}</Text>;
+  }
+
+  const avatarUrl = user?.avatar
+    ? `http://localhost:3000${user.avatar}`
+    : "/path/to/default/avatar.png";
+
   return (
     <Card
       width={customWidth}
@@ -35,38 +47,50 @@ export function SidebarRightItem({
       backgroundColor={customBackground}
       borderRadius="md"
     >
-        <Text color="#FFFFFF" fontSize="20px">
-          My Profile
-        </Text>
-        <Box width='100%'>{cover}</Box>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Box
-            width="100px"
-            position="relative"
-            left="30px"
-            top="-45px"
-          >
-            {avatar}
-          </Box>
-          <EditProfileModal/>
-        </Flex>
-        <Box color="white">
-          <Text pb='2' mt='-20px'>{title}</Text>
-          <Text fontSize="12px" color="gray.400" mt="-5px">
-            {alias}
-          </Text>
-          <Text fontSize="12px" p="10px 0">
-            {picked}
-          </Text>
-          <Flex fontSize="12px">
-            <Text pr="5px">{follow}</Text>
-            <Text color="gray.400">Following</Text>
-            <Text pl="20px">{follower}</Text>
-            <Text pl="5px" color="gray.400">
-              Followers
-            </Text>
-          </Flex>
+      <Text color="#FFFFFF" fontSize="20px">
+        My Profile
+      </Text>
+      <Box width="100%">{cover}</Box>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Box
+          width={size}
+          height={size}
+          position="relative"
+          left={left}
+          top={top}
+          borderRadius="full"
+          border="5px solid black"
+          overflow="hidden"
+        >
+          {user?.avatar && (
+            <img
+              src={avatarUrl}
+              alt="Avatar"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          )}
         </Box>
+        <EditProfileModal/>
+      </Flex>
+      <Box color="white">
+        <Text pb="2" mt="-20px">
+          {user?.name}
+        </Text>
+        <Text fontSize="12px" color="gray.400" mt="-5px">
+          @{user?.username}
+        </Text>
+        <Text fontSize="12px" p="10px 0">
+          {user?.bio}
+        </Text>
+        <Flex fontSize="12px">
+          <Text pr="5px">0</Text>
+          <Text color="gray.400">Following</Text>
+          <Text pl="20px">0</Text>
+          <Text pl="5px" color="gray.400">
+            Followers
+          </Text>
+        </Flex>
+      </Box>
     </Card>
   );
 }

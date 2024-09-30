@@ -1,22 +1,52 @@
 import { Box, Button, Text, Input } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-interface FormData {
-  name: string;
+interface RegisterFormData {
+  username: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
 export function RegisterForm() {
-  const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>();
-  
-  const navigate = useNavigate(); 
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<RegisterFormData>();
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const navigate = useNavigate();
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    navigate('/login'); 
+  // Reset form ketika komponen pertama kali dimount
+  useEffect(() => {
+    reset({
+      username: '',
+      email: '',
+      password: ''
+    });
+  }, [reset]);
+
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/auth/register', {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
+  
+      if (response.status === 201) {
+        setErrorMessages([]); // Kosongkan pesan kesalahan
+        navigate('/login'); // Arahkan pengguna ke halaman login setelah registrasi berhasil
+      } else {
+        const apiErrors = response.data.errors.map((err: { msg: string }) => err.msg);
+        setErrorMessages(apiErrors); // Simpan pesan kesalahan dari API jika ada
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const errors = error.response.data.errors.map((err: { msg: string }) => err.msg);
+        setErrorMessages(errors); // Simpan pesan kesalahan dari respons server
+      } else {
+        setErrorMessages(['Kesalahan tidak diketahui, silakan coba lagi.']);
+      }
+    }
   };
 
   return (
@@ -38,7 +68,7 @@ export function RegisterForm() {
           Circle
         </Text>
         <Text as="h1" fontSize={30} color={"#FFFFFF"}>
-          Daftar ke Circle
+          Register to Circle
         </Text>
         <Box
           as="form"
@@ -48,25 +78,29 @@ export function RegisterForm() {
             flexDirection: "column",
             gap: "5",
             width: "412px",
-            height: "400px", 
+            height: "336px",
           }}
         >
           <Input
-            {...register("name", { required: "Nama lengkap harus diisi" })}
-            name="name"
-            type="text"
-            placeholder="Nama Lengkap"
+            {...register("username", {
+              required: "Username is required",
+              minLength: { value: 3, message: "Username must be at least 3 characters" },
+            })}
+            name="username"
+            autoComplete="off"
+            placeholder="Username"
           />
-          {errors.name && <Text color="red">{errors.name.message}</Text>}
+          {errors.username && <Text color="red">{errors.username.message}</Text>}
 
           <Input
             {...register("email", {
-              required: "Email harus diisi",
+              required: "Email is required",
               pattern: {
                 value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                message: "Masukkan email yang valid",
+                message: "Invalid email format",
               },
             })}
+            autoComplete="off"
             name="email"
             type="email"
             placeholder="Email"
@@ -75,25 +109,15 @@ export function RegisterForm() {
 
           <Input
             {...register("password", {
-              required: "Password harus diisi",
-              minLength: { value: 6, message: "Password minimal 6 karakter" },
+              required: "Password is required",
+              minLength: { value: 6, message: "Password must be at least 6 characters" },
             })}
+            autoComplete="off"
             name="password"
             type="password"
             placeholder="Password"
           />
           {errors.password && <Text color="red">{errors.password.message}</Text>}
-
-          <Input
-            {...register("confirmPassword", {
-              required: "Konfirmasi password harus diisi",
-              validate: value => value === getValues('password') || "Password tidak cocok",
-            })}
-            name="confirmPassword"
-            type="password"
-            placeholder="Konfirmasi Password"
-          />
-          {errors.confirmPassword && <Text color="red">{errors.confirmPassword.message}</Text>}
 
           <Button
             type="submit"
@@ -103,18 +127,30 @@ export function RegisterForm() {
             color="white"
             borderRadius="5px"
           >
-            Daftar
+            Register
           </Button>
 
-          <Text>
-            Sudah punya akun?
-            <Link to="/login">
-                <Text color={'brand.green-disabled'}>login disini</Text>
+          {errorMessages.length > 0 && (
+            <ul>
+              {errorMessages.map((msg, index) => (
+                <li key={index} style={{ color: 'red' }}>{msg}</li>
+              ))}
+            </ul>
+          )}
+
+          <Text color="white">
+            Already have an account?
+            <Text as="span" color="brand.green">
+              <Link to="/login">
+                <Text>Login</Text>
               </Link>
+            </Text>
           </Text>
         </Box>
       </Box>
     </center>
   );
 }
+
+export default RegisterForm;
 

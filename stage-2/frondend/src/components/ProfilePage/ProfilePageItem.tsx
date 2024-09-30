@@ -11,7 +11,6 @@ import {
 import { SidebarRightItem } from "../base/component/sidebar-right-item";
 import { BaseLayoutItem } from "../base/component/base-layout-item";
 import rectangle from "../../assets/Rectangle.png";
-import { EditProfileModal } from "../features/edit-profile";
 
 export function ProfilePageItem() {
   return (
@@ -33,25 +32,6 @@ export function ProfilePageItem() {
             />
           </div>
         }
-        avatar={
-          <div>
-            <img
-              src="avatar.png"
-              style={{
-                width: "80px",
-                border: "5px solid black",
-                borderRadius: "50%",
-                top: "-10px",
-                position: "relative",
-              }}
-            />
-          </div>
-        }
-        title={"Faisal Yulainto"}
-        alias={"@faisal"}
-        picked={"Saya sedang belajar pemrograman"}
-        follow={50}
-        follower={100}
         customWidth="100%"
         customHeight="500px"
         customBackground="#1D1D1D"

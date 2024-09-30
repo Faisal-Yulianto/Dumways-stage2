@@ -1,6 +1,7 @@
 import { Box, Button, Text, Input } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 interface LoginFormData {
   email: string;
@@ -8,29 +9,42 @@ interface LoginFormData {
 }
 
 export function LoginForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
-  const navigate = useNavigate(); 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<LoginFormData>();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log("Login sukses:", data);
-    navigate('/'); 
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/auth/login", data);
+      const { token } = response.data; // Ambil token dari respons
+      localStorage.setItem('token', token); // Simpan token ke local storage
+      navigate("/"); // Redirect ke halaman utama jika sukses
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const serverErrors = error.response.data.errors;
+        // Set error berdasarkan respon dari server
+        serverErrors.forEach((err: { msg: string }) => {
+          setError("password", { type: "manual", message: err.msg });
+        });
+      } else {
+        // Tangani kesalahan lain
+        setError("password", { type: "manual", message: "Login failed. Please try again." });
+      }
+    }
   };
 
   return (
-    <center
-      style={{
-        backgroundColor: "black",
-        minHeight: "100vh",
-      }}
-    >
+    <center style={{ backgroundColor: "black", minHeight: "100vh" }}>
       <Box>
         <Text
           as="h1"
           fontSize={50}
           color={"brand.green"}
-          style={{
-            paddingTop: "128px",
-          }}
+          style={{ paddingTop: "128px" }}
         >
           Circle
         </Text>
@@ -39,7 +53,7 @@ export function LoginForm() {
         </Text>
         <Box
           as="form"
-          onSubmit={handleSubmit(onSubmit)} 
+          onSubmit={handleSubmit(onSubmit)}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -50,13 +64,13 @@ export function LoginForm() {
         >
           <Input
             {...register("email", {
-              required: "Email harus diisi",
+              required: "Email is required",
               pattern: {
                 value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                message: "Format email tidak valid",
+                message: "Invalid email format",
               },
             })}
-            name="email"
+            autoComplete="off"
             type="email"
             placeholder="Email"
           />
@@ -64,23 +78,22 @@ export function LoginForm() {
 
           <Input
             {...register("password", {
-              required: "Password harus diisi",
+              required: "Password is required",
               minLength: {
                 value: 6,
-                message: "Password minimal 6 karakter",
+                message: "Password must be at least 6 characters",
               },
             })}
-            name="password"
+            autoComplete="off"
             type="password"
             placeholder="Password"
           />
-          {errors.password && <Text color="red">{errors.password.message}</Text>} 
+          {errors.password && (
+            <Text color="red">{errors.password.message}</Text>
+          )}
 
-          <Text align={"end"} color={"white"}>
-            Forgot password?
-          </Text>
           <Button
-            type="submit" 
+            type="submit"
             backgroundColor="brand.green"
             _hover={{ backgroundColor: "brand.green-disabled" }}
             padding="20px"
@@ -90,17 +103,15 @@ export function LoginForm() {
             Login
           </Button>
           <Text>
-            Don't have an account yet?
-            <Text as="span" color="brand.green">
-              <Link to="/register">
-                <Text>Create account</Text>
-              </Link>
-            </Text>
+          Don't have an account yet?
+          <Text as="span" color="brand.green">
+            <Link to="/register">
+              <Text>Create account</Text>
+            </Link>
           </Text>
+        </Text>
         </Box>
       </Box>
     </center>
   );
 }
-
-
