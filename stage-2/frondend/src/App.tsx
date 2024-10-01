@@ -17,7 +17,7 @@ function App() {
       <Route path="/register" element={<RegisterForm />} /> 
     </Routes>
   );
-}
+} 
 
 export default App;
 

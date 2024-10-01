@@ -20,18 +20,16 @@ export function LoginForm() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await axios.post("http://localhost:3000/api/auth/login", data);
-      const { token } = response.data; // Ambil token dari respons
-      localStorage.setItem('token', token); // Simpan token ke local storage
-      navigate("/"); // Redirect ke halaman utama jika sukses
+      const { token } = response.data; 
+      localStorage.setItem('token', token); 
+      navigate("/"); 
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const serverErrors = error.response.data.errors;
-        // Set error berdasarkan respon dari server
         serverErrors.forEach((err: { msg: string }) => {
           setError("password", { type: "manual", message: err.msg });
         });
       } else {
-        // Tangani kesalahan lain
         setError("password", { type: "manual", message: "Login failed. Please try again." });
       }
     }

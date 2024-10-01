@@ -1,10 +1,10 @@
 import { Card, Text, Box, Flex } from "@chakra-ui/react";
 import { EditProfileModal } from "../../features/edit-profile";
-import { SidebarRightItemProps } from "../../type/sidebarProps"; // Pastikan SidebarRightItemProps ini diimpor atau didefinisikan
+import { SidebarRightItemProps } from "../../type/sidebarProps"; 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData } from "../../../redux/store/userSlice"; // Import thunk
-import { RootState, AppDispatch } from "../../../redux/store/store"; // Import RootState dan AppDispatch
+import { fetchUserData } from "../../../redux/store/userSlice"; 
+import { RootState, AppDispatch } from "../../../redux/store/store";
 
 
 export function SidebarRightItem({
@@ -16,13 +16,13 @@ export function SidebarRightItem({
   customHeight = "361px",
   customBackground = "#262626",
 }: SidebarRightItemProps) {
-  const dispatch = useDispatch<AppDispatch>(); // Menggunakan AppDispatch
+  const dispatch = useDispatch<AppDispatch>(); 
   const { user, loading, error } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      dispatch(fetchUserData(token)); // Panggil thunk untuk mengambil data pengguna
+      dispatch(fetchUserData(token)); 
     }
   }, [dispatch]);
 

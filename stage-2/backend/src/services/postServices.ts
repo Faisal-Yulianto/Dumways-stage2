@@ -13,7 +13,6 @@ export const createPost = async (req: AuthenticatedRequest) => {
   const userId = req.user.userId;
   const fileName = req.file ? req.file.filename : "no-file"; 
   console.log("Nama file yang disimpan:", fileName); 
-
   const post = await prisma.post.create({
     data: {
       content,

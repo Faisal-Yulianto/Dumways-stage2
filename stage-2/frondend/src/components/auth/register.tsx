@@ -15,7 +15,6 @@ export function RegisterForm() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const navigate = useNavigate();
 
-  // Reset form ketika komponen pertama kali dimount
   useEffect(() => {
     reset({
       username: '',
@@ -33,16 +32,16 @@ export function RegisterForm() {
       });
   
       if (response.status === 201) {
-        setErrorMessages([]); // Kosongkan pesan kesalahan
-        navigate('/login'); // Arahkan pengguna ke halaman login setelah registrasi berhasil
+        setErrorMessages([]); 
+        navigate('/login'); 
       } else {
         const apiErrors = response.data.errors.map((err: { msg: string }) => err.msg);
-        setErrorMessages(apiErrors); // Simpan pesan kesalahan dari API jika ada
+        setErrorMessages(apiErrors); 
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errors = error.response.data.errors.map((err: { msg: string }) => err.msg);
-        setErrorMessages(errors); // Simpan pesan kesalahan dari respons server
+        setErrorMessages(errors); 
       } else {
         setErrorMessages(['Kesalahan tidak diketahui, silakan coba lagi.']);
       }

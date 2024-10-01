@@ -57,24 +57,23 @@ export function CreatePostModal() {
 
   const onSubmit: SubmitHandler<CreatePostForm> = async (data) => {
     const token = localStorage.getItem("token");
-    
-    // Check if token exists
+  
     if (!token) {
         console.error("No token found in local storage");
         alert("You are not authorized. Please log in.");
-        return; // Exit early if token is not found
+        return; 
     }
 
     try {
         const formData = new FormData();
         if (file) {
             console.log("Appending file to FormData:", file);
-            formData.append("image", file); // Attach image file
+            formData.append("image", file); 
         }
-        formData.append("content", data.content); // Attach post content
+        formData.append("content", data.content); 
 
         const response = await axios.post(
-            "http://localhost:3000/api/posts", // URL endpoint untuk membuat post
+            "http://localhost:3000/api/posts",  
             formData,
             {
                 headers: {
