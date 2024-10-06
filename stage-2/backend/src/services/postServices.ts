@@ -16,7 +16,7 @@ export const createPost = async (req: AuthenticatedRequest) => {
   const post = await prisma.post.create({
     data: {
       content,
-      image: fileName, 
+      image: fileName,  
       userId
     },
   });

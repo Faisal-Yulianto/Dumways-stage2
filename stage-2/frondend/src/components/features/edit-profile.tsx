@@ -16,6 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +55,7 @@ export function EditProfileModal() {
   };
   
   const onSubmit: SubmitHandler<EditProfileForm> = async (data) => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
 
     if (!token) {
       console.error("No token found in local storage");
@@ -65,7 +66,6 @@ export function EditProfileModal() {
     try {
       const formData = new FormData();
       if (file) {
-        console.log("Appending file to FormData:", file);
         formData.append("avatar", file); 
       }
       formData.append("name", data.name);
@@ -84,9 +84,8 @@ export function EditProfileModal() {
       );
 
       if (response.status === 200) {
-        console.log("Profile updated:", response.data.message);
         alert("Profile updated successfully!");
-        window.location.reload(); // Refresh halaman setelah berhasil update
+        window.location.reload(); 
       } else {
         console.error("Failed to update profile:", response.data.message);
       }
@@ -101,7 +100,7 @@ export function EditProfileModal() {
   const handleUploadClick = () => {
     const fileInput = document.getElementById("file-upload") as HTMLInputElement;
     if (fileInput) {
-      fileInput.click(); // Trigger manual input file click
+      fileInput.click(); 
     }
   };
   

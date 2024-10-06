@@ -14,10 +14,14 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import upload from "../../assets/icon/gallery-add.png";
-import React, { useState } from "react"; 
+import React, { useEffect, useState } from "react"; 
 import { ButtonGreen } from "../base/component/button-green";
 import axios from "axios"; 
 import { SubmitHandler, useForm } from "react-hook-form";
+import Cookies from "js-cookie";
+import { AppDispatch, RootState } from "../../redux/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "../../redux/userSlice";
 
 interface CreatePostForm {
   content: string;
@@ -29,6 +33,25 @@ export function CreatePostModal() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { register, handleSubmit } = useForm<CreatePostForm>();
+
+  const dispatch = useDispatch<AppDispatch>(); 
+  const { user,error } = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    const token = Cookies.get("token"); 
+    if (token) {
+      dispatch(fetchUserData(token)); 
+    }
+  }, [dispatch]);
+
+  if (error) {
+    return <Text color="red.500">{error}</Text>;
+  }
+  
+
+  const avatarUrl = user?.avatar
+    ? `http://localhost:3000${user.avatar}`
+    : "avatar.png";
 
   const handleUploadClick = () => {
     const fileInput = document.getElementById("file-upload-create-post") as HTMLInputElement;
@@ -56,7 +79,7 @@ export function CreatePostModal() {
   };
 
   const onSubmit: SubmitHandler<CreatePostForm> = async (data) => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
   
     if (!token) {
         console.error("No token found in local storage");
@@ -83,7 +106,7 @@ export function CreatePostModal() {
             }
         );
 
-        if (response.status === 201) {
+        if (response.status === 200) {
             console.log("Post created:", response.data.message);
             alert("Post created successfully!");
             window.location.reload(); 
@@ -97,7 +120,6 @@ export function CreatePostModal() {
 
     onClose();
 };
-
 
   return (
     <>
@@ -118,7 +140,7 @@ export function CreatePostModal() {
               >
                 <Flex>
                   <Box pt={'4'}>
-                    <Image borderRadius="full" boxSize="40px" src="avatar.png" />
+                    <Image borderRadius="full" boxSize="40px" src={avatarUrl} />
                   </Box>
                   <Box width="590px" pl={5} pt={4}>
                     <Textarea

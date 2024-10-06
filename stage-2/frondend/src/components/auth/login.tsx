@@ -1,7 +1,9 @@
 import { Box, Button, Text, Input } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Impor useNavigate
+import Cookies from 'js-cookie';
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
 interface LoginFormData {
   email: string;
@@ -9,20 +11,32 @@ interface LoginFormData {
 }
 
 export function LoginForm() {
+  const navigate = useNavigate(); // Inisialisasi useNavigate
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
   } = useForm<LoginFormData>();
-  const navigate = useNavigate();
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/login", data);
-      const { token } = response.data; 
-      localStorage.setItem('token', token); 
-      navigate("/"); 
+      const response = await axiosInstance.post('http://localhost:3000/api/auth/login', data, {
+        withCredentials: true 
+      });
+
+      const { token } = response.data;
+
+      // Menyimpan token dengan waktu kedaluwarsa 1 jam
+      Cookies.set('token', token, {
+        expires: 1 / 24, // 1 jam
+        secure: true,
+        sameSite: 'Strict',
+        path: '/',
+      });
+
+      // Arahkan pengguna ke halaman utama setelah berhasil login
+      navigate('/'); 
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const serverErrors = error.response.data.errors;
@@ -101,13 +115,13 @@ export function LoginForm() {
             Login
           </Button>
           <Text>
-          Don't have an account yet?
-          <Text as="span" color="brand.green">
-            <Link to="/register">
-              <Text>Create account</Text>
-            </Link>
+            Don't have an account yet?
+            <Text as="span" color="brand.green">
+              <Link to="/register">
+                <Text>Create account</Text>
+              </Link>
+            </Text>
           </Text>
-        </Text>
         </Box>
       </Box>
     </center>

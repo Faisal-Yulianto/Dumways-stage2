@@ -21,6 +21,7 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
+        id:true,
         username: true,
         bio: true,
         avatar: true,
@@ -29,10 +30,10 @@ export const getUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" }); // Jika user tidak ditemukan
+      return res.status(404).json({ error: "User not found" });
     }
 
-    res.json(user); // Kirimkan data pengguna sebagai respons
+    res.json(user); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch user data" });

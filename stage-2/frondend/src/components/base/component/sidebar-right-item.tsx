@@ -3,9 +3,9 @@ import { EditProfileModal } from "../../features/edit-profile";
 import { SidebarRightItemProps } from "../../type/sidebarProps"; 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData } from "../../../redux/store/userSlice"; 
+import { fetchUserData } from "../../../redux/userSlice"; 
 import { RootState, AppDispatch } from "../../../redux/store/store";
-
+import Cookies from 'js-cookie'; // Impor js-cookie
 
 export function SidebarRightItem({
   cover,
@@ -20,7 +20,7 @@ export function SidebarRightItem({
   const { user, loading, error } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token"); // Mengambil token dari cookie
     if (token) {
       dispatch(fetchUserData(token)); 
     }
@@ -36,7 +36,7 @@ export function SidebarRightItem({
 
   const avatarUrl = user?.avatar
     ? `http://localhost:3000${user.avatar}`
-    : "/path/to/default/avatar.png";
+    : "avatar.png"; // Avatar default
 
   return (
     <Card
@@ -62,15 +62,13 @@ export function SidebarRightItem({
           border="5px solid black"
           overflow="hidden"
         >
-          {user?.avatar && (
-            <img
-              src={avatarUrl}
-              alt="Avatar"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          )}
+          <img
+            src={avatarUrl}
+            alt="Avatar"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
         </Box>
-        <EditProfileModal/>
+        <EditProfileModal />
       </Flex>
       <Box color="white">
         <Text pb="2" mt="-20px">

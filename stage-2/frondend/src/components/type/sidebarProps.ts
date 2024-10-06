@@ -2,7 +2,7 @@
 import { ReactNode } from "react";
 
 export interface SidebarRightItemProps {
-  cover: ReactNode; // Menggunakan ReactNode untuk mendefinisikan elemen JSX
+  cover: ReactNode; 
   size?: string;
   left?: string;
   top?: string;

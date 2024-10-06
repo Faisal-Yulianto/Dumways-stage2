@@ -75,7 +75,6 @@ export function RegisterForm() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "5",
             width: "412px",
             height: "336px",
           }}
