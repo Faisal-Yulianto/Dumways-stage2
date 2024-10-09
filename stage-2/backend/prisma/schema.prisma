@@ -27,8 +27,8 @@ model User {
   posts     Post[]
   replies   Reply[]
   likes     Like[]
-  followers Follow[]  @relation("UserFollowers") // Perbaikan: Kurung tutup ditambahkan
-  following Follow[]  @relation("UserFollowing") // Perbaikan: Kurung tutup ditambahkan
+  followers Follow[]  @relation("UserFollowers") 
+  following Follow[]  @relation("UserFollowing") 
   sessions  Session[]
 }
 

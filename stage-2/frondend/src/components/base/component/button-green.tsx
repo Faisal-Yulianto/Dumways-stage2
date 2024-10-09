@@ -13,7 +13,7 @@ export function ButtonGreen({ children, ...props }: ButtonProps) {
         gap: "10px",
         color: "white",
         fontSize: "20px",
-        width: "400px",
+        width: "300px",
         fontWeight: '500',
         height: '52px',
         borderRadius: "30px",

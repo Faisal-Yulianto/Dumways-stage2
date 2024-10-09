@@ -3,7 +3,7 @@ import { Box, Flex, Text, Input, InputGroup, InputLeftElement } from "@chakra-ui
 export function SearchItem() {
   return (
     <Box
-      width='900px'
+      width='720px'
       border="1px"
       borderColor="gray"
       p={5}

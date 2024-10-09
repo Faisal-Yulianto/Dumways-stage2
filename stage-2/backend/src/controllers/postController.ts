@@ -13,3 +13,4 @@ export const handleCreatePost = async (req: AuthenticatedRequest, res: Response)
   console.log("Request body:", req.body); 
   console.log("Uploaded file:", req.file)
 };
+

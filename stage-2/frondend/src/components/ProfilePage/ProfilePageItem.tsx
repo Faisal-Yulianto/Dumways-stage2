@@ -11,69 +11,79 @@ import {
 import { SidebarRightItem } from "../base/component/sidebar-right-item";
 import { BaseLayoutItem } from "../base/component/base-layout-item";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchPosts, selectPosts } from "../../redux/statusSlice";
-import { fetchUserData, selectUser } from "../../redux/userSlice"; 
+import { fetchUserData, selectUser } from "../../redux/userSlice";
 import { AppDispatch } from "../../redux/store/store";
 import Cookies from 'js-cookie';
 import { formatDistanceToNow } from "date-fns";
+import { DetailPost } from "../base/component/detailPost";
 
 export function ProfilePageItem() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const userLogin = useSelector(selectUser); 
+  const userLogin = useSelector(selectUser);
   const userLoginId = userLogin?.id;
 
   const { posts, loading, error } = useSelector(selectPosts);
 
+  const [selectedPost, setSelectedPost] = useState<number | null>(null);
+
   useEffect(() => {
-    const token = Cookies.get('token'); 
-    console.log("Token:", token); 
+    const token = Cookies.get('token');
     if (token) {
-      dispatch(fetchUserData(token)); 
-    } else {
-      console.log("Token not found.");
+      dispatch(fetchUserData(token));
     }
   }, [dispatch]);
 
   useEffect(() => {
     if (userLoginId) {
-      console.log("Fetching posts for user ID:", userLoginId);
-      dispatch(fetchPosts()); 
-    } else {
-      console.log("User Login ID is not available yet.");
+      dispatch(fetchPosts());
     }
   }, [dispatch, userLoginId]);
 
   const userPosts = posts.filter((post) => {
-    const postUserId = post.user.id?.toString();
-    const loginUserId = userLoginId?.toString();
-    
-    console.log("Post User ID:", postUserId, "User Login ID:", loginUserId); // Log untuk debug
-
-    return postUserId === loginUserId;
+    return post.user.id?.toString() === userLoginId?.toString();
   });
 
-  console.log("User Posts before filter:", posts);
-  console.log("Filtered User Posts:", userPosts);
+  const baseUrl = "http://localhost:3000";
 
-  const baseUrl = "http://localhost:3000"; 
+  if (selectedPost !== null) {
+    const postDetail = posts.find((post) => post.id === selectedPost);
+    if (postDetail) {
+      const avatar = postDetail.user.avatar
+        ? `${baseUrl}${postDetail.user.avatar}`
+        : "avatar.png";
+      const images =
+        postDetail.image && postDetail.image !== "no-file"
+          ? `${baseUrl}/uploads/${postDetail.image}`
+          : undefined;
+      return (
+        <DetailPost
+          content={postDetail.content}
+          avatar={avatar}
+          user={postDetail.user.name}
+          username={`@${postDetail.user.username}`}
+          createAt={`• ${formatDistanceToNow(new Date(postDetail.createdAt), {
+            addSuffix: true,
+          })}`}
+          postId={postDetail.id}
+          userId={postDetail.user.id}
+          image={images}
+          onBack={() => setSelectedPost(null)} 
+        />
+      );
+    }
+  }
 
   return (
-    <Box
-      width="100%"
-      borderLeft="2px"
-      borderRight="2px"
-      borderColor={"gray"}
-    >
+    <Box width="720px" borderLeft="2px" borderRight="2px" borderColor={"gray"}>
       <SidebarRightItem
         cover={
           <div>
             <img
               src="cover.png"
-              style={{
-                width: "100%",
-              }}
+              style={{ width: "100%" }}
               alt="Cover"
             />
           </div>
@@ -125,27 +135,28 @@ export function ProfilePageItem() {
                 <BaseLayoutItem
                   key={post.id}
                   content={post.content}
-                  avatar={avatar} 
+                  avatar={avatar}
                   user={post.user.name}
                   username={`@${post.user.username}`}
                   createAt={`• ${formatDistanceToNow(new Date(post.createdAt), {
                     addSuffix: true,
-                  })}`} 
+                  })}`}
                   replies={post.replyCount}
                   postId={post.id}
                   userId={post.user.id}
-                  image={images} 
+                  image={images}
+                  onShowDetail={() => setSelectedPost(post.id)} // Saat "Show Detail" ditekan, set post yang dipilih
                 />
               );
             })}
           </TabPanel>
           <TabPanel>
             <Flex
-              direction={{ base: "column", md: "row" }} 
+              direction={{ base: "column", md: "row" }}
               justify="start"
               align="center"
-              wrap="wrap" 
-              gap={2} 
+              wrap="wrap"
+              gap={2}
             >
               {userPosts.map((post) => {
                 const images =
@@ -159,9 +170,9 @@ export function ProfilePageItem() {
                       key={post.id}
                       src={images}
                       alt={`Media from ${post.user.name}`}
-                      boxSize="400px" 
-                      objectFit="cover" 
-                      borderRadius="md" 
+                      boxSize="400px"
+                      objectFit="cover"
+                      borderRadius="md"
                     />
                   )
                 );
@@ -173,4 +184,3 @@ export function ProfilePageItem() {
     </Box>
   );
 }
-

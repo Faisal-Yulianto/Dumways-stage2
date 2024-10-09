@@ -3,6 +3,7 @@ import axios from 'axios';
 import { RootState } from './store/store';
 
 interface Post {
+  replies: number;
   replyCount: number;
   createdAt: string | number | Date;
   id: number;

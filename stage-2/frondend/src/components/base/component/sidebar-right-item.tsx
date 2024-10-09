@@ -12,7 +12,7 @@ export function SidebarRightItem({
   size = "100px",
   left = "40px",
   top = "-70px",
-  customWidth = "500px",
+  customWidth = "450px",
   customHeight = "361px",
   customBackground = "#262626",
 }: SidebarRightItemProps) {
@@ -36,7 +36,7 @@ export function SidebarRightItem({
 
   const avatarUrl = user?.avatar
     ? `http://localhost:3000${user.avatar}`
-    : "avatar.png"; // Avatar default
+    : "avatar.png"; 
 
   return (
     <Card

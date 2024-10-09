@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../prisma/prismaClient';
 
-// Tambah like ke post
 export const addLike = async (req: Request, res: Response) => {
   const { postId, userId } = req.body;
 

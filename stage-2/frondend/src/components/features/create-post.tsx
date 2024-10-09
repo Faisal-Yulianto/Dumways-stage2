@@ -13,7 +13,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import upload from "../../assets/icon/gallery-add.png";
 import React, { useEffect, useState } from "react"; 
 import { ButtonGreen } from "../base/component/button-green";
 import axios from "axios"; 
@@ -170,7 +169,7 @@ export function CreatePostModal() {
                       onChange={handleFileChange}
                     />
                     <Image
-                      src={upload}
+                      src='gallery-add.png'
                       alt="Upload"
                       cursor="pointer"
                       width="24px"

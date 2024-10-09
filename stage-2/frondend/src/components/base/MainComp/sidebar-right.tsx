@@ -4,14 +4,14 @@ import { SugestItem, Follower, DevItem } from "../component/SugestItem";
 
 export function SidebarRight() {
   return (
-    <Flex direction='column' backgroundColor='#1D1D1D' p='5'>
+    <Flex direction='column' backgroundColor='#1D1D1D' p='5' w='max-content'>
       <SidebarRightItem 
         cover={<Image src='cover.png' alt='Cover' width='100%' height='auto' />}
         size={'60px'}
         top={'-50px'}
       />
       <Box
-        width='500px'
+        width='450px'
         p='8'
         mt='5'
         mb='5'

@@ -3,31 +3,28 @@ import { Image, Text, Flex, Spinner, Alert } from '@chakra-ui/react';
 import axios from 'axios';
 
 interface LikeButtonProps {
-  postId: number;  // ID dari postingan
-  userId: number;  // ID dari user yang sedang login
+  postId: number; 
+  userId: number;  
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({ postId, userId }) => {
-  const [likes, setLikes] = useState<number>(0);  // Jumlah like
-  const [liked, setLiked] = useState<boolean>(false);  // Status like
-  const [loading, setLoading] = useState<boolean>(false);  // Status loading
-  const [error, setError] = useState<string | null>(null);  // Pesan error
+  const [likes, setLikes] = useState<number>(0);  
+  const [liked, setLiked] = useState<boolean>(false);  
+  const [loading, setLoading] = useState<boolean>(false);  
+  const [error, setError] = useState<string | null>(null);  
 
-  const apiUrl = `http://localhost:3000/api/likes`;  // URL API
+  const apiUrl = `http://localhost:3000/api/likes`;  
 
-  // Mengambil data like ketika komponen dimuat
   useEffect(() => {
     const fetchLikes = async () => {
       try {
         setLoading(true);
-        
-        // Mengambil jumlah like dan status like user
         const [likesResponse, userLikeResponse] = await Promise.all([
           axios.get(`${apiUrl}/count/${postId}`),
           axios.get(`${apiUrl}/${postId}/${userId}`)
         ]);
 
-        setLikes(likesResponse.data.likeCount || 0);  // Pastikan sesuai dengan response dari server
+        setLikes(likesResponse.data.likeCount || 0);  
         setLiked(userLikeResponse.data.liked);
       } catch (error) {
         console.error("Error fetching likes:", error);
@@ -38,23 +35,18 @@ const LikeButton: React.FC<LikeButtonProps> = ({ postId, userId }) => {
     };
 
     fetchLikes();
-  }, [postId, userId]); // Memanggil ulang saat userId berubah
-
-  // Reset status liked ketika userId berubah
+  }, [postId, userId]); 
   useEffect(() => {
-    setLiked(false); // Reset liked ke false ketika userId berubah
+    setLiked(false); 
   }, [userId]);
-
-  // Menghandle toggle like
+  
   const handleLikeToggle = async () => {
     try {
       setLoading(true);
       if (liked) {
-        // Jika sudah dilike, hapus like
         await axios.delete(`${apiUrl}/${postId}/${userId}`);
         setLikes((prevLikes) => prevLikes - 1);
       } else {
-        // Jika belum dilike, tambahkan like
         await axios.post(apiUrl, { postId, userId });
         setLikes((prevLikes) => prevLikes + 1);
       }

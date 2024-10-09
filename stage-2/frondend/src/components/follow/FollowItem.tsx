@@ -7,11 +7,11 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
-import { FollowUser, Follower } from "./FollowUser";
+import FollowUser from "./FollowUser";
 
 export function FollowItem() {
   return (
-    <Box backgroundColor={"#1D1D1D"} width='900px' p={5} color="white" border='1px' borderColor={'gray'}>
+    <Box backgroundColor={"#1D1D1D"} width='720px' p={5} color="white" border='1px' borderColor={'gray'}>
       <Text fontSize="28px" mb={4}>
         Follows
       </Text>
@@ -42,28 +42,10 @@ export function FollowItem() {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Follower />
-            <Follower />
-            <Follower />
-            <Follower />
-            <Follower />
-            <Follower />
-            <Follower />
-            <Follower />
-            <Follower />
-            <Follower />
+          <FollowUser userId={1}/>
           </TabPanel>
           <TabPanel>
-            <FollowUser />
-            <FollowUser />
-            <FollowUser />
-            <FollowUser />
-            <FollowUser />
-            <FollowUser />
-            <FollowUser />
-            <FollowUser />
-            <FollowUser />
-            <FollowUser />
+         
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -20,7 +20,14 @@ export function Navbar({ home, follow, search, profile }: NavProps) {
   };
 
   return (
-    <Box p={10} rounded="md" backgroundColor={"#1D1D1D"} borderColor="gray">
+    <Box
+
+      p={0}
+      rounded="md"
+      backgroundColor={"#1D1D1D"}
+      borderColor="gray"
+      w="300px"
+    >
       <Box p={10}>
         <img src={logo} alt="Logo" />
       </Box>

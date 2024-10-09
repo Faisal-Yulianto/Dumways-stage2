@@ -2,11 +2,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import statusReducer from './../statusSlice';
 import userReducer from '../userSlice';
+import followReducer from '../followSlice';
+import replyReducer from "../replySlice"
 
 const store = configureStore({
   reducer: {
     status: statusReducer,
     user: userReducer,
+    follow: followReducer,
+    replies: replyReducer,
   },
 });
 
