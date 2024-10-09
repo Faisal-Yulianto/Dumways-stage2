@@ -13,6 +13,7 @@ import ReplyRoutes from './routes/ReplyRouter';
 import path, { dirname } from 'path';
 import swaggerUI from "swagger-ui-express"
 import swaggerDocument from "../swagger/swagger-output.json"
+import { send } from 'process';
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
   console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
   next();
 });
+app.use("/", (req, res) => res.send("hello world"))
 
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 app.use(cors(corsOptions))
@@ -39,6 +41,7 @@ app.use('/api/reply',ReplyRoutes);
 app.use('/api',profileRoutes);
 app.get('/api/user', getUser);
 app.use('/api/likes', likesRouter);
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
