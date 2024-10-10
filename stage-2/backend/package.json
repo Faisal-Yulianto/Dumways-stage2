@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "prisma generate && tsc",
-    "start": "npm run build && node ./build/index.js",
+    "start": "node dist/src/index.js",
     "dev": "nodemon index.ts",
     "postinstall": "prisma generate",
     "swagger": "node ./swagger/swagger.js"

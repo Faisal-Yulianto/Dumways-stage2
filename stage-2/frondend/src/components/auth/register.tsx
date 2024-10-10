@@ -25,7 +25,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const response = await axios.post('https://dumways-stage2.vercel.app/api/auth/register', {
+      const response = await axios.post('http://localhost:3000/api/auth/register', {
         username: data.username,
         email: data.email,
         password: data.password,

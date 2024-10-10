@@ -26,7 +26,7 @@ const initialState: UserState = {
 
 // Thunk untuk mengambil data pengguna dari API
 export const fetchUserData = createAsyncThunk('user/fetchUserData', async (token: string) => {
-  const response = await fetch('https://dumways-stage2.vercel.app/api/user', {
+  const response = await fetch('http://localhost:3000/api/user', {
     headers: {
       Authorization: `Bearer ${token}`,
     },

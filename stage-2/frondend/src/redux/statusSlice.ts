@@ -37,7 +37,7 @@ const initialState: PostsState = {
 export const fetchPosts = createAsyncThunk<Post[], void>(
   'status/fetchPosts',
   async () => {
-    const response = await axios.get('https://dumways-stage2.vercel.app/api/status');
+    const response = await axios.get('http://localhost:3000/api/status');
     return response.data;
   }
 );

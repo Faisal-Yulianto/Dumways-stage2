@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './src/routes/authRoutes';
 import bodyParser from 'body-parser';
@@ -19,24 +19,15 @@ const app = express();
 const prisma = new PrismaClient();
 const port = process.env.PORT ;
 const corsOptions = {
-  origin: [
-    'https://dumways-stage2.vercel.app', 
-    'https://dumways-stage2-cp18.vercel.app'
-  ], // Izinkan beberapa domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Pastikan metode yang digunakan dibolehkan
-  credentials: true, // Jika menggunakan credential (cookies, auth tokens)
+  origin: 'http://localhost:5173', 
+  credentials: true, 
 };
-
 app.use((req, res, next) => {
   console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
   next();
 });
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
-app.use(cors(corsOptions));
-
-// Menangani preflight request untuk semua metode
-app.options('*', cors(corsOptions));
-
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use(bodyParser.json());
 app.use('/api/status',statusRoutes)
@@ -47,11 +38,6 @@ app.use('/api/reply',ReplyRoutes);
 app.use('/api',profileRoutes);
 app.get('/api/user', getUser);
 app.use('/api/likes', likesRouter);
-app.get('/',(req : Request, res : Response)=>{
-  res.json({
-    test : 'helloworld'
-  })
-})
 
 
 app.listen(port, () => {
