@@ -62,7 +62,7 @@ export function BaseLayout() {
               : "avatar.png";
             const images =
               post.image && post.image !== "no-file"
-                ? `${baseUrl}/uploads/${post.image}`
+                ? `${baseUrl}uploads/${post.image}`
                 : undefined;
             const relativeTime = formatDistanceToNow(new Date(post.createdAt), {
               addSuffix: true,

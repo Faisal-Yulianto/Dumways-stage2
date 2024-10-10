@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../redux/userSlice"; 
 import { RootState, AppDispatch } from "../../../redux/store/store";
-import Cookies from 'js-cookie'; // Impor js-cookie
+import Cookies from 'js-cookie'; 
 
 export function SidebarRightItem({
   cover,
@@ -20,7 +20,7 @@ export function SidebarRightItem({
   const { user, loading, error } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    const token = Cookies.get("token"); // Mengambil token dari cookie
+    const token = Cookies.get("token"); 
     if (token) {
       dispatch(fetchUserData(token)); 
     }
