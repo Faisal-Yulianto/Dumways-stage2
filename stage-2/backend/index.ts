@@ -1,18 +1,18 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import authRoutes from './routes/authRoutes';
+import authRoutes from './src/routes/authRoutes';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import { getUser } from './controllers/userController';
-import profileRoutes from './routes/profileRoutes';
-import postRoutes from './routes/postRoutes'
-import statusRoutes from './routes/statusRoutes'
-import likesRouter from './routes/likeRoutes';
-import ReplyRoutes from './routes/ReplyRouter';
+import { getUser } from './src/controllers/userController';
+import profileRoutes from './src/routes/profileRoutes';
+import postRoutes from './src/routes/postRoutes'
+import statusRoutes from './src/routes/statusRoutes'
+import likesRouter from './src/routes/likeRoutes';
+import ReplyRoutes from './src/routes/ReplyRouter';
 import path, { dirname } from 'path';
 import swaggerUI from "swagger-ui-express"
-import swaggerDocument from "../swagger/swagger-output.json"
+import swaggerDocument from "./swagger/swagger-output.json"
 import { send } from 'process';
 
 dotenv.config();
