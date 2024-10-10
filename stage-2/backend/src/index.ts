@@ -27,8 +27,6 @@ app.use((req, res, next) => {
   console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
   next();
 });
-app.use("/", (req, res) => res.send("hello world"))
-
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 app.use(cors(corsOptions))
 app.use(express.json());
