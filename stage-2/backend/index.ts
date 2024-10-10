@@ -39,8 +39,6 @@ app.use('/api',profileRoutes);
 app.get('/api/user', getUser);
 app.use('/api/likes', likesRouter);
 app.get('/',(req : Request, res : Response)=>{
-
-
   res.json({
     test : 'helloworld'
   })
