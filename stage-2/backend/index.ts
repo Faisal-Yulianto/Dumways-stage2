@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './src/routes/authRoutes';
 import bodyParser from 'body-parser';
@@ -13,7 +13,6 @@ import ReplyRoutes from './src/routes/ReplyRouter';
 import path, { dirname } from 'path';
 import swaggerUI from "swagger-ui-express"
 import swaggerDocument from "./swagger/swagger-output.json"
-import { send } from 'process';
 
 dotenv.config();
 const app = express();
@@ -39,6 +38,13 @@ app.use('/api/reply',ReplyRoutes);
 app.use('/api',profileRoutes);
 app.get('/api/user', getUser);
 app.use('/api/likes', likesRouter);
+app.get('/',(req : Request, res : Response)=>{
+
+
+  res.json({
+    test : 'helloworld'
+  })
+})
 
 
 app.listen(port, () => {
