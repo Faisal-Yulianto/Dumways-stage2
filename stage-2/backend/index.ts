@@ -19,15 +19,24 @@ const app = express();
 const prisma = new PrismaClient();
 const port = process.env.PORT ;
 const corsOptions = {
-  origin: 'https://dumways-stage2.vercel.app/', 
-  credentials: true, 
+  origin: [
+    'https://dumways-stage2.vercel.app', 
+    'https://dumways-stage2-cp18.vercel.app'
+  ], // Izinkan beberapa domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Pastikan metode yang digunakan dibolehkan
+  credentials: true, // Jika menggunakan credential (cookies, auth tokens)
 };
+
 app.use((req, res, next) => {
   console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
   next();
 });
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
+
+// Menangani preflight request untuk semua metode
+app.options('*', cors(corsOptions));
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use('/api/status',statusRoutes)
