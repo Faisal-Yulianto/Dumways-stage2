@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api/auth/login', // Atur base URL sesuai dengan server Anda
+  baseURL: 'https://dumways-stage2.vercel.app/api/auth/login', // Atur base URL sesuai dengan server Anda
   withCredentials: true, // Agar cookies dikirim bersama request
 });
 
