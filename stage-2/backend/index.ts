@@ -18,12 +18,16 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 const port = process.env.PORT ;
+const corsOptions = {
+  origin: '*', 
+  credentials: false, 
+};
 app.use((req, res, next) => {
   console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
   next();
 });
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
-app.use(cors)
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use(bodyParser.json());
 app.use('/api/status',statusRoutes)
