@@ -2,18 +2,16 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://dumways-stage2.vercel.app/api/auth/login', // Atur base URL sesuai dengan server Anda
-  withCredentials: true, // Agar cookies dikirim bersama request
+  baseURL: 'https://dumways-stage2.vercel.app/api/auth/login', 
+  withCredentials: true,
 });
 
-// Interceptor untuk menangani token expired
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Token expired atau unauthorized
-      Cookies.remove('token'); // Hapus token yang expired dari cookies
-      window.location.href = '/login'; // Redirect ke halaman login
+      Cookies.remove('token'); 
+      window.location.href = '/login'; 
     }
     return Promise.reject(error);
   }
