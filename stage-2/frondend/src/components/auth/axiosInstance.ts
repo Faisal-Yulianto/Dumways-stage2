@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 const axiosInstance = axios.create({
   baseURL: 'https://dumways-stage2.vercel.app/api/auth/login', // Atur base URL sesuai dengan server Anda
-  withCredentials: false, // Agar cookies dikirim bersama request
+  withCredentials: true, // Agar cookies dikirim bersama request
 });
 
 // Interceptor untuk menangani token expired
