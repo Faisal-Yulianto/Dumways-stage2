@@ -21,9 +21,7 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const response = await axiosInstance.post('https://dumways-stage2.vercel.app/api/auth/login', data, {
-        withCredentials: true 
-      });
+      const response = await axiosInstance.post('https://dumways-stage2.vercel.app/api/auth/login');
 
       const { token } = response.data;
 
