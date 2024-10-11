@@ -19,11 +19,14 @@ const app = express();
 const prisma = new PrismaClient();
 const port = process.env.PORT ;
 const corsOptions = {
-  origin: '*', 
+  origin:  'https://dumways-stage2-cp18.vercel.app', 
   credentials: true, 
 };
 app.use((req, res, next) => {
-  console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
+  res.header('Access-Control-Allow-Origin', 'https://dumways-stage2-cp18.vercel.app');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
