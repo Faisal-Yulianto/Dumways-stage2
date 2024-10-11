@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
 interface RegisterFormData {
   username: string;
@@ -25,7 +26,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const response = await axios.post('https://dumways-stage2.vercel.app/api/auth/register', {
+      const response = await axiosInstance.post('https://dumways-stage2.vercel.app/api/auth/register', {
         username: data.username,
         email: data.email,
         password: data.password,
