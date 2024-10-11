@@ -49,7 +49,7 @@ export function CreatePostModal() {
   
 
   const avatarUrl = user?.avatar
-    ? `http://localhost:3000${user.avatar}`
+    ? `https://dumways-stage2.vercel.app${user.avatar}`
     : "avatar.png";
 
   const handleUploadClick = () => {
@@ -95,7 +95,7 @@ export function CreatePostModal() {
         formData.append("content", data.content); 
 
         const response = await axios.post(
-            "http://localhost:3000/api/posts",  
+            "https://dumways-stage2.vercel.app/api/posts",  
             formData,
             {
                 headers: {

@@ -46,7 +46,7 @@ export function ProfilePageItem() {
     return post.user.id?.toString() === userLoginId?.toString();
   });
 
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = "https://dumways-stage2.vercel.app";
 
   if (selectedPost !== null) {
     const postDetail = posts.find((post) => post.id === selectedPost);
