@@ -20,7 +20,7 @@ const prisma = new PrismaClient();
 const port = process.env.PORT ;
 const corsOptions = {
   origin: '*', 
-  credentials: true, 
+  credentials: false, 
 };
 app.use((req, res, next) => {
   console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
