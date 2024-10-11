@@ -19,7 +19,7 @@ export function LoginForm() {
     setError,
   } = useForm<LoginFormData>();
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async () => {
     try {
       const response = await axiosInstance.post('https://dumways-stage2.vercel.app/api/auth/login');
 
