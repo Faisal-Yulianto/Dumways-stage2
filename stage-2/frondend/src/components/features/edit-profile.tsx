@@ -73,7 +73,7 @@ export function EditProfileModal() {
       formData.append("bio", data.bio);
 
       const response = await axios.put(
-        "http://localhost:3000/api/profile",
+        "https://dumways-stage2.vercel.app/api/profile",
         formData,
         {
           headers: {
@@ -145,7 +145,7 @@ export function EditProfileModal() {
                   type="file"
                   style={{ display: "none" }}
                   onChange={handleFileChange}
-                  accept="image/*" // Tambahkan ini untuk memastikan hanya gambar yang bisa dipilih
+                  accept="image/*" 
                 />
 
                 <Image
