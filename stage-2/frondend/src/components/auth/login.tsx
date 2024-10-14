@@ -10,6 +10,7 @@ interface LoginFormData {
   password: string;
 }
 
+const baseUrl = import.meta.env.VITE_API_URL;
 export function LoginForm() {
   const navigate = useNavigate(); // Inisialisasi useNavigate
   const {
@@ -21,7 +22,7 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const response = await axiosInstance.post('https://dumways-stage2.vercel.app/api/auth/login', data, {
+      const response = await axiosInstance.post(`${baseUrl}/api/auth/login`, data, {
         withCredentials: true
       });
 

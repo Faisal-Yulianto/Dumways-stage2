@@ -21,7 +21,7 @@ export function PostItem() {
   const { user,error } = useSelector(
     (state: RootState) => state.user
   );
-
+  const baseUrl = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
@@ -34,7 +34,7 @@ export function PostItem() {
   }
 
   const avatarUrl = user?.avatar
-    ? `https://dumways-stage2.vercel.app${user.avatar}`
+    ? `${baseUrl}${user.avatar}`
     : "avatar.png";
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +70,7 @@ export function PostItem() {
         formData.append("content", data.content);
 
         const response = await axios.post(
-            "https://dumways-stage2.vercel.app/posts",
+            `${baseUrl}/posts`,
             formData,
             {
                 headers: {

@@ -32,12 +32,12 @@ const initialState: PostsState = {
   posts: [],
   loading: false,
   error: null,
-};
+};const baseUrl = import.meta.env.VITE_API_URL;
 
 export const fetchPosts = createAsyncThunk<Post[], void>(
   'status/fetchPosts',
   async () => {
-    const response = await axios.get('https://dumways-stage2.vercel.app/api/status');
+    const response = await axios.get(`${baseUrl}/api/status`);
     return response.data;
   }
 );

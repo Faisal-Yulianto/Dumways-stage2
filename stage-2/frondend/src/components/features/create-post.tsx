@@ -26,6 +26,7 @@ interface CreatePostForm {
   content: string;
 }
 
+const baseUrl = import.meta.env.VITE_API_URL;
 export function CreatePostModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [file, setFile] = useState<File | null>(null);
@@ -49,7 +50,7 @@ export function CreatePostModal() {
   
 
   const avatarUrl = user?.avatar
-    ? `https://dumways-stage2.vercel.app${user.avatar}`
+    ? `${baseUrl}${user.avatar}`
     : "avatar.png";
 
   const handleUploadClick = () => {
@@ -95,7 +96,7 @@ export function CreatePostModal() {
         formData.append("content", data.content); 
 
         const response = await axios.post(
-            "https://dumways-stage2.vercel.app/api/posts",  
+            `${baseUrl}/api/posts`,  
             formData,
             {
                 headers: {

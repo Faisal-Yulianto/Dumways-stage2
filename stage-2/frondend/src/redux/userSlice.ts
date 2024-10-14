@@ -1,5 +1,5 @@
-// src/store/userSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios'; // Import axios
 import { RootState } from './store/store';
 
 interface User {
@@ -11,7 +11,7 @@ interface User {
 }
 
 interface UserState {
-  auth: any; // Jika ada tipe yang lebih spesifik, gunakan tipe tersebut
+  auth: any; 
   user: User | null;
   loading: boolean;
   error: string | null;
@@ -21,27 +21,25 @@ const initialState: UserState = {
   user: null,
   loading: false,
   error: null,
-  auth: undefined, // Periksa logika ini jika perlu disesuaikan
+  auth: undefined, 
 };
+const baseUrl = import.meta.env.VITE_API_URL;
 
-// Thunk untuk mengambil data pengguna dari API
 export const fetchUserData = createAsyncThunk('user/fetchUserData', async (token: string) => {
-  const response = await fetch('https://dumways-stage2.vercel.app/api/user', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const response = await axios.get(`${baseUrl}/api/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch user data');
+    console.log("User Data Fetched:", response.data);
+    return response.data; 
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch user data');
   }
-
-  const data = await response.json();
-  console.log("User Data Fetched:", data); // Log data untuk memverifikasi respons
-  return data;
 });
 
-// Membuat slice user
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -54,7 +52,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchUserData.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload; // Simpan data pengguna
+        state.user = action.payload; // Simpan data user di state
       })
       .addCase(fetchUserData.rejected, (state, action) => {
         state.loading = false;

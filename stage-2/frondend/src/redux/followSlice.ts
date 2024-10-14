@@ -1,9 +1,7 @@
-// src/features/followSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import Cookies from 'js-cookie'; // Import js-cookie
+import Cookies from 'js-cookie'; 
 
-// Define types for the follow state
 interface FollowState {
     followers: any[];
     following: any[];
@@ -11,7 +9,6 @@ interface FollowState {
     error: string | null;
 }
 
-// Initial state
 const initialState: FollowState = {
     followers: [],
     following: [],
@@ -19,16 +16,15 @@ const initialState: FollowState = {
     error: null,
 };
 
-// Function to get JWT token from cookies
 const getToken = () => {
-    return Cookies.get('token');  // Assume JWT token is stored in 'token' cookie
+    return Cookies.get('token');  
 };
 
 // Async thunks for API calls
 export const followUser = createAsyncThunk(
     'follow/followUser',
     async ({ followerId, followingId }: { followerId: number; followingId: number }) => {
-        const token = getToken();  // Get JWT token from cookies
+        const token = getToken();  
         const response = await axios.post('http://localhost:3000/api/follow', 
             { followerId, followingId }, 
             {

@@ -26,7 +26,7 @@ interface EditProfileForm {
   username: string;
   bio: string;
 }
-
+const baseUrl = import.meta.env.VITE_API_URL;
 export function EditProfileModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit } = useForm<EditProfileForm>();
@@ -73,7 +73,7 @@ export function EditProfileModal() {
       formData.append("bio", data.bio);
 
       const response = await axios.put(
-        "https://dumways-stage2.vercel.app/api/profile",
+        `${baseUrl}/api/profile`,
         formData,
         {
           headers: {

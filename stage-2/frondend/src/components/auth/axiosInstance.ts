@@ -1,8 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+const baseUrl = import.meta.env.VITE_API_URL;
 const axiosInstance = axios.create({
-  baseURL: 'https://dumways-stage2.vercel.app/api/auth/login', 
+  baseURL: `${baseUrl}/api/auth/login`, 
   withCredentials: true,
 });
 

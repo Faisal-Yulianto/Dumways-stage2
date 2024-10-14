@@ -12,8 +12,8 @@ const LikeButton: React.FC<LikeButtonProps> = ({ postId, userId }) => {
   const [liked, setLiked] = useState<boolean>(false);  
   const [loading, setLoading] = useState<boolean>(false);  
   const [error, setError] = useState<string | null>(null);  
-
-  const apiUrl = `http://localhost:3000/api/likes`;  
+  const baseUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = `${baseUrl}/api/likes`;  
 
   useEffect(() => {
     const fetchLikes = async () => {

@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { fetchPosts, selectPosts } from "../../redux/statusSlice";
 import { fetchUserData, selectUser } from "../../redux/userSlice";
 import { AppDispatch } from "../../redux/store/store";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { formatDistanceToNow } from "date-fns";
 import { DetailPost } from "../base/component/detailPost";
 
@@ -25,12 +25,13 @@ export function ProfilePageItem() {
   const userLogin = useSelector(selectUser);
   const userLoginId = userLogin?.id;
 
-  const { posts, loading, error } = useSelector(selectPosts);
+  // Pastikan posts adalah array
+  const { posts = [], loading, error } = useSelector(selectPosts);
 
   const [selectedPost, setSelectedPost] = useState<number | null>(null);
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    const token = Cookies.get("token");
     if (token) {
       dispatch(fetchUserData(token));
     }
@@ -42,11 +43,13 @@ export function ProfilePageItem() {
     }
   }, [dispatch, userLoginId]);
 
-  const userPosts = posts.filter((post) => {
-    return post.user.id?.toString() === userLoginId?.toString();
-  });
-
-  const baseUrl = "https://dumways-stage2.vercel.app";
+  // Pastikan userPosts adalah array yang valid
+  const userPosts = Array.isArray(posts)
+    ? posts.filter(
+        (post) => post.user.id?.toString() === userLoginId?.toString()
+      )
+    : [];
+    const baseUrl = import.meta.env.VITE_API_URL;
 
   if (selectedPost !== null) {
     const postDetail = posts.find((post) => post.id === selectedPost);
@@ -81,11 +84,7 @@ export function ProfilePageItem() {
       <SidebarRightItem
         cover={
           <div>
-            <img
-              src="cover.png"
-              style={{ width: "100%" }}
-              alt="Cover"
-            />
+            <img src="cover.png" style={{ width: "100%" }} alt="Cover" />
           </div>
         }
         customWidth="100%"
@@ -145,7 +144,7 @@ export function ProfilePageItem() {
                   postId={post.id}
                   userId={post.user.id}
                   image={images}
-                  onShowDetail={() => setSelectedPost(post.id)} // Saat "Show Detail" ditekan, set post yang dipilih
+                  onShowDetail={() => setSelectedPost(post.id)} 
                 />
               );
             })}

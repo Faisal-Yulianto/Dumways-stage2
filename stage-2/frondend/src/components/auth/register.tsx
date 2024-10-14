@@ -23,10 +23,10 @@ export function RegisterForm() {
       password: ''
     });
   }, [reset]);
-
+  const baseUrl = import.meta.env.VITE_API_URL;
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const response = await axiosInstance.post('https://dumways-stage2.vercel.app/api/auth/register', {
+      const response = await axiosInstance.post(`${baseUrl}/api/auth/register`, {
         username: data.username,
         email: data.email,
         password: data.password,

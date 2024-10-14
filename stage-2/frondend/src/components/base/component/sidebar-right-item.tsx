@@ -35,7 +35,7 @@ export function SidebarRightItem({
   }
 
   const avatarUrl = user?.avatar
-    ? `https://dumways-stage2.vercel.app${user.avatar}`
+    ? `http://localhost:3000${user.avatar}`
     : "avatar.png"; 
 
   return (
