@@ -41,9 +41,6 @@ app.use('/api/reply',ReplyRoutes);
 app.use('/api',profileRoutes);
 app.get('/api/user', getUser);
 app.use('/api/likes', likesRouter);
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
 
 
 app.listen(port, () => {
