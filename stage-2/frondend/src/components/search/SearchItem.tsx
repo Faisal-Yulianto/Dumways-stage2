@@ -3,8 +3,8 @@ import { Box, Flex, Text, Input, InputGroup, InputLeftElement } from "@chakra-ui
 export function SearchItem() {
   return (
     <Box
-      width='720px'
       border="1px"
+      h='200vh'
       borderColor="gray"
       p={5}
       backgroundColor={"#1D1D1D"}

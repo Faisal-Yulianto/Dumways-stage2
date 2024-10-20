@@ -26,34 +26,53 @@ interface EditProfileForm {
   username: string;
   bio: string;
 }
+
 const baseUrl = import.meta.env.VITE_API_URL;
+
 export function EditProfileModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit } = useForm<EditProfileForm>();
   const [avatar, setAvatar] = React.useState<string>("avatar.png");
-  const [file, setFile] = React.useState<File | null>(null); 
+  const [file, setFile] = React.useState<File | null>(null);
+  const [background, setBackground] = React.useState<string>("cover.png");
+  const [backgroundFile, setBackgroundFile] = React.useState<File | null>(null); 
   const navigate = useNavigate();
 
   const handleEditProfileClick = () => {
-    onOpen(); 
-    navigate("/profile"); 
+    onOpen();
+    navigate("/profile");
   };
 
+  // Handle avatar upload
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0]; 
+    const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
-          setAvatar(e.target.result as string); 
+          setAvatar(e.target.result as string); // Set avatar preview
         }
       };
-      reader.readAsDataURL(selectedFile); 
-      
-      setFile(selectedFile);
+      reader.readAsDataURL(selectedFile); // Preview avatar image
+      setFile(selectedFile); // Store selected file
     }
   };
-  
+
+  // Handle background upload
+  const handleBackgroundChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          setBackground(e.target.result as string); // Set background preview
+        }
+      };
+      reader.readAsDataURL(selectedFile); // Preview background image
+      setBackgroundFile(selectedFile); // Store selected file
+    }
+  };
+
   const onSubmit: SubmitHandler<EditProfileForm> = async (data) => {
     const token = Cookies.get("token");
 
@@ -66,26 +85,25 @@ export function EditProfileModal() {
     try {
       const formData = new FormData();
       if (file) {
-        formData.append("avatar", file); 
+        formData.append("avatar", file); // Upload avatar
+      }
+      if (backgroundFile) {
+        formData.append("background", backgroundFile); // Upload background
       }
       formData.append("name", data.name);
       formData.append("username", data.username);
       formData.append("bio", data.bio);
 
-      const response = await axios.put(
-        `${baseUrl}/api/profile`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.put(`${baseUrl}/api/profile`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (response.status === 200) {
         alert("Profile updated successfully!");
-        window.location.reload(); 
+        window.location.reload();
       } else {
         console.error("Failed to update profile:", response.data.message);
       }
@@ -100,10 +118,16 @@ export function EditProfileModal() {
   const handleUploadClick = () => {
     const fileInput = document.getElementById("file-upload") as HTMLInputElement;
     if (fileInput) {
-      fileInput.click(); 
+      fileInput.click();
     }
   };
-  
+
+  const handleBackgroundUploadClick = () => {
+    const fileInput = document.getElementById("background-upload") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
 
   return (
     <>
@@ -126,34 +150,52 @@ export function EditProfileModal() {
           <ModalCloseButton />
           <ModalBody>
             <Flex direction="column">
-              <Box width="100%">
-                <Image src="cover.png" h="120px" mb="-50px" />
+              <Box width="100%" position="relative">
+                <Image src={background} h="120px" mb="-50px" w='100%' borderRadius='15px' />
+                <input
+                  id="background-upload"
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={handleBackgroundChange}
+                  accept="image/*"
+                />
+                <Image
+                  src="Frame.png"
+                  width="30px"
+                  position="absolute"
+                  top="5px"
+                  right="5px"
+                  onClick={handleBackgroundUploadClick}
+                />
               </Box>
+
               <Box position="relative" left="30px" top="15px">
+                {/* Avatar image */}
                 <Image
                   src={avatar}
                   w="60px"
-                  h="60PX"
+                  h="60px"
                   border="2px"
                   borderRadius="full"
                   borderColor="black"
                 />
               </Box>
               <Box position="relative" left="45px" top="-30px">
+                {/* Avatar file input */}
                 <input
                   id="file-upload"
                   type="file"
                   style={{ display: "none" }}
                   onChange={handleFileChange}
-                  accept="image/*" 
+                  accept="image/*"
                 />
-
                 <Image
                   src="Frame.png"
                   width="30px"
                   onClick={handleUploadClick}
                 />
               </Box>
+
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Box>
                   <Text fontSize="sm">Name</Text>
@@ -163,10 +205,7 @@ export function EditProfileModal() {
                   <Text fontSize="sm" mt={2}>
                     Username
                   </Text>
-                  <Input
-                    {...register("username")}
-                    placeholder="Enter new username"
-                  />
+                  <Input {...register("username")} placeholder="Enter new username" />
                 </Box>
                 <Box>
                   <Text mt={2}>Bio</Text>

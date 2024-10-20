@@ -11,7 +11,7 @@ import FollowUser from "./FollowUser";
 
 export function FollowItem() {
   return (
-    <Box backgroundColor={"#1D1D1D"} width='720px' p={5} color="white" border='1px' borderColor={'gray'}>
+    <Box backgroundColor={"#1D1D1D"} h='200vh' p={5} color="white" border='1px' borderColor={'gray'}>
       <Text fontSize="28px" mb={4}>
         Follows
       </Text>

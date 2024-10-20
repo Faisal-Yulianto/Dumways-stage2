@@ -8,6 +8,7 @@ interface User {
   name?: string;
   username?: string;
   bio?: string;
+  background?: string; // Pastikan ini adalah string
 }
 
 interface UserState {
@@ -23,23 +24,27 @@ const initialState: UserState = {
   error: null,
   auth: undefined, 
 };
-const baseUrl = import.meta.env.VITE_API_URL;
 
+const baseUrl = import.meta.env.VITE_API_URL; // Ambil URL dasar dari environment variable
+
+// Fetch user data from API
 export const fetchUserData = createAsyncThunk('user/fetchUserData', async (token: string) => {
   try {
-    const response = await axios.get(`${baseUrl}/api/user`, {
+    const response = await axios.get(`${baseUrl}/api/user`, { // Menggunakan endpoint `/api/profile`
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, // Tambahkan header token
       },
     });
 
-    console.log("User Data Fetched:", response.data);
+    console.log("User Data Fetched:", response.data); // Log data yang diterima
     return response.data; 
   } catch (error: any) {
+    console.error("Error fetching user data:", error); // Log error jika ada
     throw new Error(error.response?.data?.message || 'Failed to fetch user data');
   }
 });
 
+// Create user slice
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -47,22 +52,23 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading = true; // Set loading state
+        state.error = null; // Reset error
       })
       .addCase(fetchUserData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload; // Simpan data user di state
+        state.loading = false; // Stop loading
+        state.user = action.payload; // Update user dengan data dari API
+        console.log("User Updated in State:", state.user); // Log untuk memverifikasi update
       })
       .addCase(fetchUserData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Unknown error'; // Tangani kesalahan
+        state.loading = false; // Stop loading
+        state.error = action.error.message || 'Unknown error'; // Set error message
+        console.error("Error Updating State:", action.error.message); // Log error jika ada
       });
   },
 });
 
-// Selector untuk mendapatkan data pengguna dari state
-export const selectUser = (state: RootState) => state.user.user;
+// Selector to get user data
+export const selectUser = (state: RootState) => state.user.user; // Selector untuk mengambil data user dari state
 
-// Ekspor reducer
-export default userSlice.reducer;
+export default userSlice.reducer; // Export reducer

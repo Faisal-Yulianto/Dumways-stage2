@@ -50,7 +50,7 @@ export function CreatePostModal() {
   
 
   const avatarUrl = user?.avatar
-    ? `${baseUrl}${user.avatar}`
+    ? `${user.avatar}`
     : "avatar.png";
 
   const handleUploadClick = () => {
@@ -106,7 +106,7 @@ export function CreatePostModal() {
             }
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
             console.log("Post created:", response.data.message);
             alert("Post created successfully!");
             window.location.reload(); 

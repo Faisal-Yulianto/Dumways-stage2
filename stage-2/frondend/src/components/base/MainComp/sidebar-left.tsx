@@ -21,12 +21,11 @@ export function Navbar({ home, follow, search, profile }: NavProps) {
 
   return (
     <Box
-
+    width='100%'
       p={0}
       rounded="md"
       backgroundColor={"#1D1D1D"}
       borderColor="gray"
-      w="300px"
     >
       <Box p={10}>
         <img src={logo} alt="Logo" />
@@ -46,7 +45,7 @@ export function Navbar({ home, follow, search, profile }: NavProps) {
         </Link>
         <CreatePostModal />
       </Box>
-      <Flex direction="column" h="100vh" justifyContent="space-between" p={4}>
+      <Flex direction="column" h="50vh" justifyContent="space-between" p={4}>
         <Box></Box>
         <Box onClick={handleLogout} cursor="pointer">
           <NavbarItem icon="logout.png" text="Logout" />

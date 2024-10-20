@@ -9,34 +9,33 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
-  password  String
-  name      String?
-  bio       String?
-  avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  username   String   @unique
+  email      String   @unique
+  password   String
+  name       String?
+  bio        String?
+  avatar     String?
+  background String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   posts     Post[]
   replies   Reply[]
   likes     Like[]
-  followers Follow[]  @relation("UserFollowers") 
-  following Follow[]  @relation("UserFollowing") 
-  sessions  Session[]
+  followers Follow[]  @relation("UserFollowers")
+  following Follow[]  @relation("UserFollowing")
 }
 
 model Post {
   id        Int      @id @default(autoincrement())
   content   String
-  image     String
+  image     String?
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -80,12 +79,3 @@ model Follow {
   @@unique([followerId, followingId])
 }
 
-model Session {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  token     String   @unique
-  createdAt DateTime @default(now())
-  expiresAt DateTime
-
-  user User @relation(fields: [userId], references: [id])
-}

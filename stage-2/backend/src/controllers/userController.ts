@@ -26,6 +26,7 @@ export const getUser = async (req: Request, res: Response) => {
         bio: true,
         avatar: true,
         name: true,
+        background:true,
       },
     });
 

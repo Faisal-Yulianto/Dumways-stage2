@@ -1,6 +1,6 @@
-
 import { Request, Response } from 'express';
-import prisma from '../prisma/prismaClient';
+import uploadImageToCloudinary from '../utils/cloudinary'; 
+import prisma from '../utils/prismaClient';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: number };
@@ -14,17 +14,51 @@ export const updateProfile = async (req: AuthenticatedRequest, res: Response) =>
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const avatar = req.file
-    ? `/uploads/${req.file.filename}` 
-    : undefined
+    let avatarUrl, backgroundUrl;
 
+    if (req.files && 'avatar' in req.files) {
+      const avatarFileArray = req.files['avatar'] as Express.Multer.File[];
+      if (avatarFileArray && avatarFileArray.length > 0) {
+        const avatarBuffer = avatarFileArray[0].buffer; 
+        const avatarResult = await uploadImageToCloudinary(avatarBuffer);
+
+        if (!avatarResult) {
+          return res.status(500).json({ message: 'Failed to upload avatar' });
+        }
+
+        avatarUrl = avatarResult.secure_url; // URL from Cloudinary
+      }
+    }
+
+    // Handle background upload
+    if (req.files && 'background' in req.files) {
+      const backgroundFileArray = req.files['background'] as Express.Multer.File[];
+      if (backgroundFileArray && backgroundFileArray.length > 0) {
+        const backgroundBuffer = backgroundFileArray[0].buffer;
+        const backgroundResult = await uploadImageToCloudinary(backgroundBuffer);
+    
+        // Periksa hasil upload
+        if (!backgroundResult) {
+          return res.status(500).json({ message: 'Failed to upload background image' });
+        }
+    
+        // Pastikan URL valid
+        backgroundUrl = backgroundResult.secure_url;
+      } else {
+        console.error('No background file provided');
+      }
+    }
+    
+
+    // Update user profile in database
     const updatedUser = await prisma.user.update({
       where: { id: req.user.userId },
       data: {
         name,
         username,
         bio,
-        avatar: avatar ? avatar : undefined, 
+        avatar: avatarUrl ? avatarUrl : undefined,
+        background: backgroundUrl ? backgroundUrl : undefined,
       },
     });
 

@@ -23,9 +23,8 @@ export function ProfilePageItem() {
   const dispatch = useDispatch<AppDispatch>();
 
   const userLogin = useSelector(selectUser);
-  const userLoginId = userLogin?.id;
+  const userLoginId = userLogin?.id; // Validasi user ID
 
-  // Pastikan posts adalah array
   const { posts = [], loading, error } = useSelector(selectPosts);
 
   const [selectedPost, setSelectedPost] = useState<number | null>(null);
@@ -34,33 +33,40 @@ export function ProfilePageItem() {
     const token = Cookies.get("token");
     if (token) {
       dispatch(fetchUserData(token));
+      console.log("Token found, fetching user data...");
+    } else {
+      console.error("Token not found.");
     }
   }, [dispatch]);
 
   useEffect(() => {
     if (userLoginId) {
       dispatch(fetchPosts());
+      console.log("User is logged in, fetching posts...");
     }
-  }, [dispatch, userLoginId]);
+  }, [dispatch, userLoginId]); // Mengambil posts setiap kali userLoginId berubah
 
-  // Pastikan userPosts adalah array yang valid
   const userPosts = Array.isArray(posts)
-    ? posts.filter(
-        (post) => post.user.id?.toString() === userLoginId?.toString()
-      )
+    ? posts
+        .filter((post) => post.user.id === userLoginId) // Filter posts milik user yang login
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) // Urutkan berdasarkan createdAt
     : [];
-    const baseUrl = import.meta.env.VITE_API_URL;
+
+  // Logging untuk memastikan user posts ditampilkan dengan benar
+  console.log("User posts:", userPosts);
+  console.log("All posts:", posts);
+
+  // Handler for creating new post
 
   if (selectedPost !== null) {
     const postDetail = posts.find((post) => post.id === selectedPost);
     if (postDetail) {
-      const avatar = postDetail.user.avatar
-        ? `${baseUrl}${postDetail.user.avatar}`
-        : "avatar.png";
+      const avatar = postDetail.user.avatar ? `${postDetail.user.avatar}` : "avatar.png";
       const images =
         postDetail.image && postDetail.image !== "no-file"
-          ? `${baseUrl}/uploads/${postDetail.image}`
+          ? `${postDetail.image}`
           : undefined;
+
       return (
         <DetailPost
           content={postDetail.content}
@@ -73,24 +79,15 @@ export function ProfilePageItem() {
           postId={postDetail.id}
           userId={postDetail.user.id}
           image={images}
-          onBack={() => setSelectedPost(null)} 
+          onBack={() => setSelectedPost(null)}
         />
       );
     }
   }
 
   return (
-    <Box width="720px" borderLeft="2px" borderRight="2px" borderColor={"gray"}>
-      <SidebarRightItem
-        cover={
-          <div>
-            <img src="cover.png" style={{ width: "100%" }} alt="Cover" />
-          </div>
-        }
-        customWidth="100%"
-        customHeight="500px"
-        customBackground="#1D1D1D"
-      />
+    <Box borderLeft="2px" borderRight="2px" borderColor={"gray"}>
+      <SidebarRightItem customWidth="100%" customHeight="500px" customBackground="#1D1D1D" />
       <Tabs mt={4}>
         <TabList borderBottom="2px solid gray">
           <Tab
@@ -122,12 +119,10 @@ export function ProfilePageItem() {
             {error && <Box>Error: {error}</Box>}
             {userPosts.length === 0 && <Box>No posts yet.</Box>}
             {userPosts.map((post) => {
-              const avatar = post.user.avatar
-                ? `${baseUrl}${post.user.avatar}`
-                : "avatar.png";
+              const avatar = post.user.avatar ? `${post.user.avatar}` : "avatar.png";
               const images =
                 post.image && post.image !== "no-file"
-                  ? `${baseUrl}/uploads/${post.image}`
+                  ? `${post.image}`
                   : undefined;
 
               return (
@@ -144,7 +139,7 @@ export function ProfilePageItem() {
                   postId={post.id}
                   userId={post.user.id}
                   image={images}
-                  onShowDetail={() => setSelectedPost(post.id)} 
+                  onShowDetail={() => setSelectedPost(post.id)}
                 />
               );
             })}
@@ -160,7 +155,7 @@ export function ProfilePageItem() {
               {userPosts.map((post) => {
                 const images =
                   post.image && post.image !== "no-file"
-                    ? `${baseUrl}/uploads/${post.image}`
+                    ? `${post.image}`
                     : null;
 
                 return (
@@ -169,7 +164,7 @@ export function ProfilePageItem() {
                       key={post.id}
                       src={images}
                       alt={`Media from ${post.user.name}`}
-                      boxSize="400px"
+                      boxSize="360px"
                       objectFit="cover"
                       borderRadius="md"
                     />

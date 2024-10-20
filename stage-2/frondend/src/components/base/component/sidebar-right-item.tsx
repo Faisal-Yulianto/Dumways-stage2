@@ -1,4 +1,4 @@
-import { Card, Text, Box, Flex } from "@chakra-ui/react";
+import { Card, Text, Box, Flex, Image } from "@chakra-ui/react"; 
 import { EditProfileModal } from "../../features/edit-profile";
 import { SidebarRightItemProps } from "../../type/sidebarProps"; 
 import { useEffect } from "react";
@@ -8,12 +8,11 @@ import { RootState, AppDispatch } from "../../../redux/store/store";
 import Cookies from 'js-cookie'; 
 
 export function SidebarRightItem({
-  cover,
   size = "100px",
   left = "40px",
   top = "-70px",
-  customWidth = "450px",
-  customHeight = "361px",
+  customWidth = "470px",
+  customHeight = "400px",
   customBackground = "#262626",
 }: SidebarRightItemProps) {
   const dispatch = useDispatch<AppDispatch>(); 
@@ -34,9 +33,10 @@ export function SidebarRightItem({
     return <Text color="red.500">{error}</Text>;
   }
 
-  const avatarUrl = user?.avatar
-    ? `http://localhost:3000${user.avatar}`
-    : "avatar.png"; 
+  
+  const avatarUrl = user?.avatar || "avatar.png"; 
+  const backgroundUrl = user?.background || "default_background_image.png"; 
+  console.log("User Data in Component:", user);
 
   return (
     <Card
@@ -50,7 +50,17 @@ export function SidebarRightItem({
       <Text color="#FFFFFF" fontSize="20px">
         My Profile
       </Text>
-      <Box width="100%">{cover}</Box>
+      {/* Background Image */}
+      <Box width="100%" position="relative">
+        <Image 
+          src={backgroundUrl} 
+          alt="Background" 
+          objectFit="cover" 
+          width="100%" 
+          height="150px"
+          borderRadius="md"
+        />
+      </Box>
       <Flex justifyContent="space-between" alignItems="center">
         <Box
           width={size}

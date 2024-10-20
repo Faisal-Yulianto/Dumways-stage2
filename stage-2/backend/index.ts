@@ -10,6 +10,7 @@ import postRoutes from './src/routes/postRoutes'
 import statusRoutes from './src/routes/statusRoutes'
 import likesRouter from './src/routes/likeRoutes';
 import ReplyRoutes from './src/routes/ReplyRouter';
+import followRoutes from './src/routes/followRoutes'
 import path, { dirname } from 'path';
 import swaggerUI from "swagger-ui-express"
 import swaggerDocument from "./swagger/swagger-output.json"
@@ -19,11 +20,11 @@ const app = express();
 const prisma = new PrismaClient();
 const port = process.env.PORT ;
 const corsOptions = {
-  origin:  'https://dumways-stage2-cp18.vercel.app', 
+  origin:  'http://localhost:5173', 
   credentials: true, 
 };
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://dumways-stage2-cp18.vercel.app');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

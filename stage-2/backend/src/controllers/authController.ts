@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs'; 
 import jwt from 'jsonwebtoken'; 
-import prisma from '../prisma/prismaClient'; 
+import prisma from '../utils/prismaClient'; 
 
 export const register = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;

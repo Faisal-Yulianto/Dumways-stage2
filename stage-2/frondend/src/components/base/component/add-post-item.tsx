@@ -13,7 +13,7 @@ interface CreatePostForm {
 
 export function PostItem() {
   const dispatch = useDispatch<AppDispatch>();
-  const { register, handleSubmit, reset } = useForm<CreatePostForm>(); // Ambil reset dari useForm
+  const { register, handleSubmit, reset } = useForm<CreatePostForm>(); 
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -34,7 +34,7 @@ export function PostItem() {
   }
 
   const avatarUrl = user?.avatar
-    ? `${baseUrl}${user.avatar}`
+    ? `${user.avatar}`
     : "avatar.png";
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +49,7 @@ export function PostItem() {
         }
       };
       reader.readAsDataURL(selectedFile);
-      setErrorMessage(""); // Reset error message on file selection
+      setErrorMessage(""); 
     } else {
       setErrorMessage("No file selected.");
     }
@@ -70,7 +70,7 @@ export function PostItem() {
         formData.append("content", data.content);
 
         const response = await axios.post(
-            `${baseUrl}/posts`,
+            `${baseUrl}/api/posts`,
             formData,
             {
                 headers: {
@@ -80,14 +80,14 @@ export function PostItem() {
             }
         );
         if (
-            response.status === 200 &&
+            response.status === 201 &&
             response.data.message === "Post created successfully"
         ) {
-            alert("Post created successfully!"); // Menampilkan pesan sukses
-            reset(); // Mengosongkan isi form
-            setFile(null); // Reset file state
+            alert("Post created successfully!"); 
+            reset(); 
+            setFile(null); 
             setImagePreview(null); 
-            window.location.reload()// Reset image preview state
+            window.location.reload()
         } else {
             console.error("Failed to create post:", response.data.message);
         }

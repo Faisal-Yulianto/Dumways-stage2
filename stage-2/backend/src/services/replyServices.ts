@@ -1,4 +1,4 @@
-import prisma from '../prisma/prismaClient';
+import prisma from '../utils/prismaClient';
 import { CreateReplyDto } from '../dto/reply-dto';
 
 export const getRepliesByPost = async (postId: number) => {
